@@ -1,0 +1,16 @@
+[{
+  "id": 1,
+  "name": "Astra Space",
+  "ticker": "ASTR",
+  "price": 9.37,
+  "image": "https://invest-brands.cdn-tinkoff.ru/US04634X1037x160.png"
+},
+  {
+    "id": 2,
+    "name": "Snap Inc",
+    "ticker": "SNAP",
+    "price": 53.16,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US83304A1060x160.png"
+  }
+
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Alex",
+    "startBalance": 20000,
+    "balance": 20000,
+    "stocks": [
+      {
+        "id": 1,
+        "amount": 5,
+        "buyFor": 1
+      },
+      {
+        "id": 2,
+        "amount": 10,
+        "buyFor": 1200
+      }
+    ]
+  }
+]
