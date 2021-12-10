@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export const StockRowContainer = styled.div`
+export const StockRowContainer = styled(Link)`
   display: flex;
   padding: 10px 40px;
   cursor: pointer;
   transition: .2s;
-  border-bottom: 2px solid #dddfe0;
+  border-top: 2px solid #dddfe0;
   &:hover {
     background-color: #f6f7f8;
   }

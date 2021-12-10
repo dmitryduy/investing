@@ -10,7 +10,6 @@ export const StocksContainer = styled.div`
     display: flex;
     font-weight: 500;
     color: rgba(0, 0, 0, .8);
-    border-bottom: 2px solid #dddfe0;
     padding: 20px 40px;
     li:first-child {
       flex: 2;

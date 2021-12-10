@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     StocksContainer, StocksTitle,
 } from "./Stocks.styles";
 import StockRow from "./StockRow/StockRow";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserStock } from "../../reducers/stockReducer";
 
 
 const Stocks = () => {
 
-    const [stock, setStock] = useState(null);
+    const {stockData, loaded} = useSelector(({stock}) => stock);
+    const stocks = useSelector(({user}) => user?.user?.stocks);
+    const dispatch = useDispatch();
     useEffect(() => {
-        fetch('http://localhost:5000/getStock')
-            .then(response => response.json())
-            .then(data => {
-                setStock(data);
-            });
-    }, []);
+        if (stocks) {
+            dispatch(fetchUserStock(stocks.map(stock => stock.id)));
+        }
+    }, [stocks]);
 
     return (
         <>
@@ -26,7 +28,11 @@ const Stocks = () => {
                     <li>Стоимость</li>
                     <li>За сегодня</li>
                 </div>
-                {stock?.map(stock => <StockRow key={stock.stock.id} item={stock}/>)}
+                {loaded ?
+                    stockData.map(stock => <StockRow key={stock.id} item={stock}/>)
+                    :
+                    <p style={{margin: '0 auto', padding: '10px'}}>Loading...</p>
+                }
             </StocksContainer>
         </>
 
