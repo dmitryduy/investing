@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { LastOrder, SoldBuyInfo, SoldContentContainer, StockName } from "./SoldContent.styles";
 import socket from "../../sockets";
+import { useSelector } from "react-redux";
 
 const SoldContent = ({id, name,  img,  ticker, lastOrder}) => {
     const [amount, setAmount] = useState(0);
     const [price, setPrice] = useState(lastOrder);
+    const {amount: stockAmount, frozenAmount} = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id));
+    const userName = useSelector(({user}) => user.user.name);
 
     const changePrice = (event) => {
         setPrice(event.target.value);
@@ -15,10 +18,11 @@ const SoldContent = ({id, name,  img,  ticker, lastOrder}) => {
     }
 
     const sold = () => {
-        if (amount <= 0 && price <=0) {
+        console.log(stockAmount)
+        if (amount <= 0 || price <=0 || stockAmount - frozenAmount < amount) {
             return;
         }
-       socket.emit('sold', {id, price, amount})
+       socket.emit('sold', {id, price, amount, userName});
     }
 
     return (

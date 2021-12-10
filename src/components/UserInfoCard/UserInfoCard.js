@@ -15,13 +15,6 @@ const UserInfoCard = () => {
 
     const [sign, setSign] = useState('');
 
-    socket.on('del', (price) => {
-        setUserBalance(price);
-        startBalance <= price ? setSign('+') : setSign('-');
-    });
-    useEffect(() => {
-        dispatch(fetchUser('Alex'));
-    }, []);
 
     useEffect(() => {
         if (loaded) {

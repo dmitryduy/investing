@@ -5,6 +5,8 @@ import SoldContent from "../components/SoldContent/SoldContent";
 import { useParams } from "react-router";
 import BuySoldAbout from "../components/BuySoldAbout/BuySoldAbout";
 import socket from "../sockets";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAC } from "../reducers/userReducer";
 
 const SoldPageContainer = styled.div`
   display: flex;
@@ -13,15 +15,22 @@ const SoldPageContainer = styled.div`
 const SoldPage = () => {
     const {id} = useParams();
     const [stock, setStock] = useState(null);
+    const dispatch = useDispatch();
+    const userId = useSelector(({user}) => user.user.id);
 
-    socket.on('sold', (data) => {
-        setStock(data);
-    })
     useEffect(() => {
+        socket.on('sold', (data) => {
+            setStock(data.changedStock);
+            if (data.user.id === userId) {
+                dispatch(fetchUserAC(data.user));
+            }
+        })
         fetch(`http://localhost:5000/stock/${id}`)
             .then(response => response.json())
             .then(data => setStock(data));
-
+        return () => {
+            socket.off('sold');
+        }
     }, []);
     return (
         stock &&

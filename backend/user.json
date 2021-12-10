@@ -4,16 +4,66 @@
     "name": "Alex",
     "startBalance": 20000,
     "balance": 20000,
+    "frozenBalance": 0,
+    "readyBuy": [],
+    "readySold": [
+      {
+        "orderId": 1,
+        "amount": 4
+      },
+      {
+        "orderId": 2,
+        "amount": 4
+      },
+      {
+        "orderId": 3,
+        "amount": 2
+      }
+    ],
     "stocks": [
       {
         "id": 1,
         "amount": 5,
-        "buyFor": 1
+        "buyFor": 1,
+        "frozenAmount": 0
       },
       {
         "id": 2,
         "amount": 10,
-        "buyFor": 1200
+        "buyFor": 1200,
+        "frozenAmount": 0
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Lex",
+    "startBalance": 20000,
+    "balance": 20000,
+    "frozenBalance": 0,
+    "readyBuy": [
+      {
+        "orderId": 4,
+        "amount": 4
+      },
+      {
+        "orderId": 5,
+        "amount": 4
+      }
+    ],
+    "readySold": [],
+    "stocks": [
+      {
+        "id": 1,
+        "amount": 5,
+        "buyFor": 1,
+        "frozenAmount": 0
+      },
+      {
+        "id": 2,
+        "amount": 10,
+        "buyFor": 1200,
+        "frozenAmount": 0
       }
     ]
   }
