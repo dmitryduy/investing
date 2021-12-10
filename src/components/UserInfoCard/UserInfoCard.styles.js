@@ -6,7 +6,7 @@ export const UserInfoCardContainer = styled.div`
   grid-gap: 20px;
   padding: 40px 30px;
   border-radius: 10px;
-  background: linear-gradient(45deg, rgb(77, 77, 81) 5%, rgb(57, 57, 65));
+  background: linear-gradient(235deg,#404040,#000000);
   margin-bottom: 40px;
 `;
 

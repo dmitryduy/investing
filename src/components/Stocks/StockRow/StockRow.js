@@ -17,7 +17,7 @@ const StockRow = ({item: stock}) => {
 
     const sign = stock.price >= userStockData.buyFor ? '+' : '-';
     return (
-        <StockRowContainer>
+        <StockRowContainer to={`/stocks/${stock.id}`}>
             <StockName>
                 <StockImage src={stock.image}/>
                 <div>

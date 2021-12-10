@@ -3,14 +3,34 @@
   "name": "Astra Space",
   "ticker": "ASTR",
   "price": 9.37,
-  "image": "https://invest-brands.cdn-tinkoff.ru/US04634X1037x160.png"
+  "image": "https://invest-brands.cdn-tinkoff.ru/US04634X1037x160.png",
+  "sector": "Машиностроение и транспорт",
+  "about": "Astra Space, Inc. работает как компания, предоставляющая космические услуги. Компания разрабатывает и производит космические корабли и ракеты. Astra Space обслуживает клиентов по всему миру.",
+  "countryInfo": {
+    "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+    "countryName": "Соединенные штаты"
+  },
+  "stockExchangeInfo": {
+    "stockExchangeName": "СПБ Биржа",
+    "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+  }
 },
   {
     "id": 2,
     "name": "Snap Inc",
     "ticker": "SNAP",
     "price": 53.16,
-    "image": "https://invest-brands.cdn-tinkoff.ru/US83304A1060x160.png"
+    "image": "https://invest-brands.cdn-tinkoff.ru/US83304A1060x160.png",
+    "sector": "Информационные технологии",
+    "about":"Snap Inc. предоставляет технологии и социальные медиа-услуги и разрабатывает приложения и услуги для мобильных камер, которые позволяют пользователям отправлять и получать фотографии, рисунки, текст и видеоматериалы.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    }
   }
 
 ]

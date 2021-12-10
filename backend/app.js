@@ -24,6 +24,11 @@ app.get('/user/:userName', (req, res) => {
     res.json(user);
 })
 
+app.get('/stock/:id', (req, res) => {
+    const stock = stocks.find(stock => stock.id === +req.params.id);
+    res.json(stock);
+})
+
 app.post('/getStock', (req, res) => {
     let arrOfStock = req.body.map(stockId => {
         const stock = stocks.find(stock => stock.id === stockId);
