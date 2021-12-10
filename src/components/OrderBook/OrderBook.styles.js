@@ -6,8 +6,9 @@ export const OrderBookContainer = styled.div`
   flex: 3;
   border: 1px solid #e7e8ea;
   border-radius: 6px;
-  height: 300px;
+  max-height: 300px;
   cursor: pointer;
+  overflow: auto;
 `;
 
 export const OrderBookHeader = styled.div`
@@ -15,6 +16,7 @@ export const OrderBookHeader = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #e7e8ea;
   padding: 10px;
+  
   span {
     font-size: 13px;
   }
@@ -30,10 +32,15 @@ export const OrderBookHeader = styled.div`
 
 export const OrderBookItem = styled.div`
   height: 34px;
+  min-height: 34px;
   display: flex;
   align-items: center;
   margin: 1px 0;
   position: relative;
+  transition: .2s;
+  &:hover {
+    background-color: rgba(0,0,0,.04);;
+  }
   &:last-child {
     margin-bottom: 0;
   }
@@ -52,7 +59,6 @@ export const OrderBookItem = styled.div`
     .progress {
       border-radius: 0 10px 10px 0;
       background-color: rgba(57,181,74,.08);
-      width: ${props => props.progressWidth}%;
       height: 100%;
       transition: 1s;
     }
@@ -66,11 +72,10 @@ export const OrderBookItem = styled.div`
     .progress {
       border-radius:  0 10px 10px 0;
       background-color: rgba(224,31,25,.08);;
-      width: ${props => props.progressWidth}%;
       height: 100%;
     }
     .amount {
-      right: 6px;
+      left: 6px;
       color: #c40b08;
       transform: rotateZ(180deg);
     }

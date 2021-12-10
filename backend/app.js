@@ -64,6 +64,8 @@ app.get ('/order-book/:id', (req, res) => {
     res.json(orderBook);
 })
 
+
+
 app.post('/getStock', (req, res) => {
     let arrOfStock = req.body.map(stockId => {
         const stock = stocks.find(stock => stock.id === stockId);
@@ -81,12 +83,30 @@ app.post('/getStock', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
-    setInterval(() => {
+    /*setInterval(() => {
         Math.random() > 0.5 ? user.balance -= +((Math.random() * 1000).toFixed(2)) :
             user.balance += +((Math.random() * 1000).toFixed(2));
         socket.emit('del', user.balance);
 
-    }, 5000);
+    }, 5000);*/
+    socket.on('sold', (data) => {
+        const changedStock = stocks.find(stock => stock.id === +data.id);
+        changedStock.orderBook.totalSold+= +data.amount;
+        const order = changedStock.orderBook.sold.find(order => order.price === +data.price);
+        if(order) {
+            order.amount+= +data.amount;
+        }
+        else {
+            changedStock.orderBook.sold.push({
+                price: +data.price,
+                seller: 'Alex',
+                amount: +data.amount,
+            })
+        }
+
+        socket.emit('sold', changedStock)
+
+    });
 });
 
 server.listen(5000, () => {

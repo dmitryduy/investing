@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { OrderBookContainer, OrderBookHeader, OrderBookItem } from "./OrderBook.styles";
-import { useParams } from "react-router";
 
-const OrderBook = () => {
-    const {id} = useParams();
-    const [orderBook, setOrderBook] = useState(null);
-    useEffect(() => {
-        fetch(`http://localhost:5000/order-book/${id}`)
-            .then(response => response.json())
-            .then(data => setOrderBook(data))
-    }, []);
-
+const OrderBook = ({orderBook}) => {
     return (
-        orderBook &&
         <OrderBookContainer>
             <OrderBookHeader>
                 <span className='buy'>Покупка</span>
@@ -20,17 +10,17 @@ const OrderBook = () => {
                 <span className='sold'>Продажа</span>
             </OrderBookHeader>
             {orderBook.sold.map(order => (
-                <OrderBookItem className='sold' progressWidth={order.amount / orderBook.totalSold * 100}>
-                    <div className='progress'/>
-                    <span className='amount'>{order.amount}</span>
-                    <span className='price'>{order.price}</span>
+                <OrderBookItem className='sold' key={order.price}>
+                    <div className='progress' style={{width: `${order.amount / orderBook.totalSold * 100}%`}}/>
+                    <span className='amount'>{order.amount.toLocaleString('RU-ru')}</span>
+                    <span className='price'>{order.price.toLocaleString('RU-ru')}</span>
                 </OrderBookItem>
             ))}
             {orderBook.buy.map(order => (
-                <OrderBookItem className='buy' progressWidth={order.amount / orderBook.totalSold * 100}>
-                    <div className='progress'/>
-                    <span className='amount'>{order.amount}</span>
-                    <span className='price'>{order.price}</span>
+                <OrderBookItem className='buy' key={order.price} >
+                    <div className='progress' style={{width: `${order.amount / orderBook.totalSold * 100}%`}}/>
+                    <span className='amount'>{order.amount.toLocaleString('RU-ru')}</span>
+                    <span className='price'>{order.price.toLocaleString('RU-ru')}</span>
                 </OrderBookItem>
             ))}
         </OrderBookContainer>
