@@ -146,12 +146,13 @@ const addSoldOrderToStock = (changedStock, amount, price, sellerName) => {
 
 }
 
-const addSoldOrderToUser = (sellerName, orderId, amount) => {
+const addSoldOrderToUser = (sellerName, orderId, amount, price) => {
     //add to seller user this order
     const sellerUser = getUserByName(sellerName);
     sellerUser.readySold.push({
         orderId: orderId,
-        amount: amount
+        amount: amount,
+        price: price
     });
 }
 
@@ -239,7 +240,8 @@ const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
         //add to buyerUser user this order
         buyerUser.readyBuy.push({
             orderId: newOrderId,
-            amount: remainAmount
+            amount: remainAmount,
+            price: +data.price
         });
         //push new sold order
         changedStock.orderBook.buy.push({
@@ -390,7 +392,17 @@ io.on('connection', (socket) => {
         //find user that want to sold stocks
         const user = users.find(user => user.name === data.userName);
         const userStock = user.stocks.find(stock => stock.id === +data.id);
-        userStock.frozenAmount += +data.amount;
+        if (userStock) {
+            userStock.frozenAmount += +data.amount;
+        }
+       else {
+           user.stocks.push({
+               frozenAmount: +data.amount,
+               id: +data.id,
+               amount: 0,
+               price: +data.price
+           })
+        }
         changedStock.orderBook.totalSold += +data.amount;
         const order = changedStock.orderBook.sold.find(order => order.price === +data.price);
         //if there is this price
@@ -404,7 +416,8 @@ io.on('connection', (socket) => {
             });
             user.readySold.push({
                 orderId: newOrderId,
-                amount: +data.amount
+                amount: +data.amount,
+                price: +data.price
             });
         } else {
             const newOrderId = orderId++;
@@ -419,7 +432,8 @@ io.on('connection', (socket) => {
             })
             user.readySold.push({
                 orderId: newOrderId,
-                amount: +data.amount
+                amount: +data.amount,
+                price: +data.price
             });
         }
         changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
@@ -458,7 +472,8 @@ io.on('connection', (socket) => {
             });
             user.readyBuy.push({
                 orderId: newOrderId,
-                amount: +data.amount
+                amount: +data.amount,
+                price: +data.price
             });
         } else {
             const newOrderId = orderId++;
@@ -473,7 +488,8 @@ io.on('connection', (socket) => {
             })
             user.readyBuy.push({
                 orderId: newOrderId,
-                amount: +data.amount
+                amount: +data.amount,
+                price: +data.price
             });
         }
         changedStock.orderBook.buy.sort((a, b) => b.price - a.price);

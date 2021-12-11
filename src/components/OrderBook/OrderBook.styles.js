@@ -55,6 +55,14 @@ export const OrderBookItem = styled.div`
     transform: translateX(-50%);
     font-size: 13px;
   }
+  .user-orders {
+    position: absolute;
+    left: 25%;
+    font-size: 11px;
+    padding: 2px; 
+    border: 1px solid rgba(51,51,51,.48);
+    border-radius: 3px;
+  }
   &.buy {
     .progress {
       border-radius: 0 10px 10px 0;
@@ -81,6 +89,9 @@ export const OrderBookItem = styled.div`
     }
     .price {
       transform: rotateZ(180deg) translateX(50%);
+    }
+    .user-orders {
+      transform: rotateZ(180deg);
     }
   }
 `;

@@ -19,12 +19,11 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
     const [amountAnimation, setAmountAnimation] = useState(false);
     const [maxAmountAnimation, setMaxAmountAnimation] = useState(false);
     const [minPriceAnimation, setMinPriceAnimation] = useState(false);
-    console.log(lastOrder, price)
     const {name: userName, frozenBalance, balance} = useSelector(({user}) => user.user);
 
     const changePrice = (event) => {
-        const regex = /^\d{0,10}(\.\d{0,2})?$/;
-        if ( regex.test(event.target.value)){
+        const regex = /^[1-9]\d{0,9}(\.\d{0,2})?$/;
+        if (event.target.value === '' || regex.test(event.target.value)){
             setPrice(event.target.value);
         }
     }
