@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import StockPageMain from "../components/StockPageMain/StockPageMain";
 import BuySold from "../components/BuySold/BuySold";
+import { useDispatch } from "react-redux";
+import { changeSoldPriceAC } from "../reducers/settingsReducer";
 
 const Container = styled.div`
   display: flex;
@@ -11,10 +13,14 @@ const Container = styled.div`
 const StockPage = () => {
     const {id} = useParams();
     const [stock, setStock] = useState(null);
+    const dispatch = useDispatch();
     useEffect(() => {
         fetch(`http://localhost:5000/stock/${id}`)
             .then(response => response.json())
-            .then(data => setStock(data));
+            .then(data => {
+                setStock(data);
+                dispatch(changeSoldPriceAC(data.orderBook.buy[0].price));
+            });
     }, []);
 
     return (

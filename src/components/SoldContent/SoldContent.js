@@ -1,29 +1,76 @@
-import React, { useState } from 'react';
-import { LastOrder, SoldBuyInfo, SoldContentContainer, StockName } from "./SoldContent.styles";
+import React, { useEffect, useState } from 'react';
+import { Hint, LastOrder, SoldBuyInfo, SoldContainer, SoldContentContainer, StockName } from "./SoldContent.styles";
 import socket from "../../sockets";
 import { useSelector } from "react-redux";
+import { Button, Input } from "../../Styled";
 
-const SoldContent = ({id, name,  img,  ticker, lastOrder}) => {
-    const [amount, setAmount] = useState(0);
+
+const SoldContent = ({id, name, img, ticker, lastOrder, minSoldPrice}) => {
+    const [amount, setAmount] = useState(1);
     const [price, setPrice] = useState(lastOrder);
-    const {amount: stockAmount, frozenAmount} = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id));
+    const chooseSoldPrice = useSelector(({settings}) => settings.soldPrice);
+    const [soldPriceAnimation, setSoldPriceAnimation] = useState(false);
+    const [amountAnimation, setAmountAnimation] = useState(false);
+    const [maxAmountAnimation, setMaxAmountAnimation] = useState(false);
+    const [minPriceAnimation, setMinPriceAnimation] = useState(false);
+    const {
+        amount: stockAmount,
+        frozenAmount
+    } = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id));
     const userName = useSelector(({user}) => user.user.name);
 
     const changePrice = (event) => {
-        setPrice(event.target.value);
+        const regex = /^\d{0,10}(\.\d{0,2})?$/;
+        if ( regex.test(event.target.value)){
+            setPrice(event.target.value);
+        }
     }
 
     const changeAmount = (event) => {
-        setAmount(event.target.value);
+        const regex = /^[1-9]\d{0,10}$/;
+        if (event.target.value === '' || regex.test(event.target.value)) {
+            setAmount(event.target.value);
+        }
     }
 
     const sold = () => {
-        console.log(stockAmount)
-        if (amount <= 0 || price <=0 || stockAmount - frozenAmount < amount) {
+        if (!amount) {
+            setAmountAnimation(true);
             return;
         }
-       socket.emit('sold', {id, price, amount, userName});
+        if (stockAmount - frozenAmount < amount) {
+            setMaxAmountAnimation(true);
+            return;
+        }
+        if (price < minSoldPrice) {
+            setMinPriceAnimation(true);
+            return;
+        }
+        socket.emit('sold', {id, price, amount, userName});
     }
+
+    useEffect(() => {
+        if (amountAnimation) {
+            setTimeout(() => setAmountAnimation(false), 200);
+        }
+    }, [amountAnimation]);
+
+    useEffect(() => {
+        if (maxAmountAnimation) {
+            setTimeout(() => setMaxAmountAnimation(false), 1000);
+        }
+    }, [maxAmountAnimation]);
+    useEffect(() => {
+        if (minPriceAnimation) {
+            setTimeout(() => setMinPriceAnimation(false), 1000);
+        }
+    }, [minPriceAnimation]);
+    useEffect(() => {
+        setPrice(chooseSoldPrice);
+        setSoldPriceAnimation(true);
+        setTimeout(() => setSoldPriceAnimation(false), 200);
+    }, [chooseSoldPrice]);
+
 
     return (
         <SoldContentContainer>
@@ -38,9 +85,28 @@ const SoldContent = ({id, name,  img,  ticker, lastOrder}) => {
                     <span className='last-order'>{lastOrder} $</span>
                 </LastOrder>
             </SoldBuyInfo>
-            <input type="number" value={price} onInput={changePrice}/>
-            <input type="number" value={amount} onInput={changeAmount}/>
-            <button onClick={sold}>send</button>
+            <SoldContainer>
+                <div>
+                    <Input hint='Цена продажи'>
+                        <input type="text" value={price} onInput={changePrice} className={soldPriceAnimation && 'animate-price'}/>
+                        <Hint className={minPriceAnimation && 'animate'}>Минимальная цена продажи: {minSoldPrice} $</Hint>
+                        <br/>
+                    </Input>
+
+                </div>
+                <div>
+                    <Input hint='Количество лотов'>
+                        <input type="text" value={amount} onInput={changeAmount} className={amountAnimation && 'animate-amount'}/>
+                    </Input>
+                    <Hint className={maxAmountAnimation && 'animate'}>Количество лотов на продажу: {stockAmount - frozenAmount}</Hint>
+                </div>
+                <Button onClick={sold}>Продать за: {(price * amount).toLocaleString('Ru-ru',
+                    {
+                        style: 'currency', currency: 'USD'
+                    }
+                )}</Button>
+            </SoldContainer>
+
         </SoldContentContainer>
     );
 };

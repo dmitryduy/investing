@@ -37,7 +37,12 @@ const SoldPage = () => {
             <>
                 <BuySoldAbout title='Продажа'/>
                 <SoldPageContainer>
-                    <SoldContent id={id} lastOrder={stock.price} img={stock.image} name={stock.name} ticker={stock.ticker}/>
+                    <SoldContent minSoldPrice={stock.orderBook.buy[0].price}
+                                 id={id}
+                                 lastOrder={stock.price}
+                                 img={stock.image}
+                                 name={stock.name}
+                                 ticker={stock.ticker}/>
                     <OrderBook id={id} orderBook={stock.orderBook}/>
                 </SoldPageContainer>
             </>

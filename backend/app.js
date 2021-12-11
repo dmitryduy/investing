@@ -20,7 +20,7 @@ let orderId = 10;
 
 stocks[0].orderBook = {
     totalSold: 10,
-    totalBuy: 10,
+    totalBuy: 1004,
     sold: [
         {
             price: 9.4,
@@ -42,16 +42,16 @@ stocks[0].orderBook = {
         {
 
             price: 9.35,
-            totalAmount: 6,
+            totalAmount: 1000,
             buyers: [
-                {orderId: 4, name: 'Lex', amount: 6}
+                {orderId: 4, name: 'Admin', amount: 1000}
             ]
         },
         {
             price: 9.3,
             totalAmount: 4,
             buyers: [
-                {orderId: 5, name: 'Lex', amount: 4}
+                {orderId: 5, name: 'Admin', amount: 4}
             ]
         },
     ],
@@ -159,6 +159,8 @@ const soldAllStocks = (changedStock, socket, data) => {
     changedStock.price = +data.price;
 
     changedStock.orderBook.buy[0].totalAmount -= +data.amount;
+    changedStock.orderBook.totalBuy-= +data.amount;
+    console.log(changedStock)
     let remain = +data.amount;
 
     //remove sold stock
@@ -232,6 +234,7 @@ io.on('connection', (socket) => {
 
         //find user that want to sold stocks
         const user = users.find(user => user.name === data.userName);
+        console.log(data)
         const userStock = user.stocks.find(stock => stock.id === +data.id);
         userStock.frozenAmount+= +data.amount;
         console.log(user, data)
