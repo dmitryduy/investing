@@ -19,7 +19,7 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
     const [amountAnimation, setAmountAnimation] = useState(false);
     const [maxAmountAnimation, setMaxAmountAnimation] = useState(false);
     const [minPriceAnimation, setMinPriceAnimation] = useState(false);
-
+    console.log(lastOrder, price)
     const {name: userName, frozenBalance, balance} = useSelector(({user}) => user.user);
 
     const changePrice = (event) => {
@@ -69,7 +69,8 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
         }
     }, [minPriceAnimation]);
     useEffect(() => {
-        setPrice(chooseBuyPrice);
+        if (chooseBuyPrice)
+            setPrice(chooseBuyPrice);
         setSoldPriceAnimation(true);
         setTimeout(() => setSoldPriceAnimation(false), 200);
     }, [chooseBuyPrice]);
@@ -104,7 +105,7 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
                     <Hint className={maxAmountAnimation && 'animate'}>Количество лотов на покупку:
                         {' ' + Math.floor((balance - frozenBalance)/ price) }</Hint>
                 </div>
-                <Button onClick={sold}>Купить за за: {(price * amount).toLocaleString('Ru-ru',
+                <Button onClick={sold}>Купить за: {(price * amount).toLocaleString('Ru-ru',
                     {
                         style: 'currency', currency: 'USD'
                     }

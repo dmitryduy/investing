@@ -8,18 +8,7 @@
     "readyBuy": [],
     "readySold": [],
     "stocks": [
-      {
-        "id": 1,
-        "amount": 5,
-        "buyFor": 1,
-        "frozenAmount": 0
-      },
-      {
-        "id": 2,
-        "amount": 10,
-        "buyFor": 1200,
-        "frozenAmount": 0
-      }
+
     ]
   },
   {
@@ -56,13 +45,13 @@
       {
         "id": 1,
         "amount": 5,
-        "buyFor": 1,
+        "price": 1,
         "frozenAmount": 0
       },
       {
         "id": 2,
         "amount": 10,
-        "buyFor": 1200,
+        "price": 1200,
         "frozenAmount": 0
       }
     ]

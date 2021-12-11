@@ -89,74 +89,123 @@ app.post('/getStock', (req, res) => {
     res.json(arrOfStock);
 })
 
+app.get('/stock', (req, res) => {
+    res.json(stocks.map(stock => ({
+        id: stock.id,
+        image: stock.image,
+        name: stock.name,
+        ticker: stock.ticker,
+        price: stock.price
+    })));
+})
 
-const soldWithBuyAndAddNewSold = (changedStock, socket, data) => {
-    // decrement total from buy on this stock
-    changedStock.totalBuy -= changedStock.orderBook.buy[0].totalAmount;
+const getUserByName = (userName) => {
+    return users.find(user => user.name === userName);
+}
 
-    //set new price for stock
-    changedStock.price = +data.price;
+const removeBuyOrderById = (user, orderId) => {
+    user.readyBuy = user.readyBuy.filter(order => order.orderId !== orderId);
+}
 
-    const remainAmount = +data.amount - changedStock.orderBook.buy[0].totalAmount;
+const giveBuyerStocks = (buyerName, amount, price, orderId, stockId) => {
+    //find this buyer
+    const user = getUserByName(buyerName);
+    //remove current order
+    removeBuyOrderById(user, orderId);
+    //decrement balance of buyer
+    user.balance -= amount * price;
+    // decrease frozen balance
+    user.frozenBalance -= amount * price;
+    //add stock to user and change average price
+    const userCurrentStock = user.stocks.find(stock => stock.id === stockId);
+    userCurrentStock.amount += amount;
+    userCurrentStock.price = +(((userCurrentStock.price + +price) / (amount + 1)).toFixed(2));
+}
 
-    // all buyers can buy this stock
-    for (let buyer of changedStock.orderBook.buy[0].buyers) {
-        //find this buyer
-        const user = users.find(user => user.name === buyer.name);
-        console.log(user);
-        //remove current order
-        user.readyBuy = user.readyBuy.filter(order => order.orderId !== buyer.orderId);
-        //decrement balance of buyer
-        user.balance -= buyer.amount * +data.price;
-
-        //add some stock to user
-        const userCurrentStock = user.stocks.find(stock => stock.orderId === +data.id);
-        userCurrentStock.amount += buyer.amount;
-        userCurrentStock.price = +(((userCurrentStock.price + +data.price) / userCurrentStock.amount).toFixed(2));
-        // emit to change data of user
-        socket.emit('newBalance', user);
-
+const addSoldOrderToStock = (changedStock, amount, price, sellerName) => {
+    if (amount === 0) {
+        return
     }
     // create new order for sold
     const newOrderId = orderId++;
-
-    changedStock.totalSold += remainAmount;
-    // remove current price from buy
-    changedStock.orderBook.buy.shift();
+    //increase counter of total sold stocks
+    changedStock.totalSold += amount;
 
     //push new sold order
     changedStock.orderBook.sold.push({
-        price: +data.price,
+        price: price,
         sellers: [{
             orderId: newOrderId,
-            name: data.userName,
-            amount: remainAmount
+            name: sellerName,
+            amount: amount
         }],
-        totalAmount: remainAmount,
+        totalAmount: amount,
     })
 
-    //add to seller user this order
-    const sellerUser = users.find(user => user.name === data.userName)
-    sellerUser.readySold.push({
-        orderId: newOrderId,
-        amount: remainAmount
-    });
-    //add balance for sold stocks
-    sellerUser.balance += (+data.amount - remainAmount) * +data.price;
-    //remove sold stocks
-    const sellerStock = sellerUser.stocks.find(stock => stock.id === +data.id);
+    return newOrderId;
 
-    sellerStock.amount = sellerStock.amount - (+data.amount - remainAmount);
-    sellerStock.frozenAmount += remainAmount;
+}
+
+const addSoldOrderToUser = (sellerName, orderId, amount) => {
+    //add to seller user this order
+    const sellerUser = getUserByName(sellerName);
+    sellerUser.readySold.push({
+        orderId: orderId,
+        amount: amount
+    });
+}
+
+const increaseUserBalanceForSoldStocks = (sellerName, frozenAmount, amount, price, stockId) => {
+    const sellerUser = getUserByName(sellerName);
+    //add balance to user
+    sellerUser.balance += amount * price;
+    //remove sold stocks
+    const sellerStock = sellerUser.stocks.find(stock => stock.id === stockId);
+
+    sellerStock.amount = sellerStock.amount - amount;
+    sellerStock.frozenAmount += frozenAmount;
+    if (sellerStock.amount === 0) {
+        sellerUser.stocks = sellerUser.stocks.filter(stock => stock.id !== stockId);
+    }
+    console.log(sellerUser, sellerUser.stocks)
+}
+
+const increaseUserAmountOfStocks = (user, userCurrentStock, amount, price) => {
+    userCurrentStock.amount += amount;
+    user.balance -= amount * price;
+    userCurrentStock.price = +(((userCurrentStock.price + price) / (amount+1)).toFixed(2));
+}
+
+const soldWithBuyAndAddNewSold = (changedStock, socket, data) => {
+    const maxBuyStockObj = getMaximumStockBuyObj(changedStock);
+    // decrement total from buy on this stock
+    changedStock.orderBook.totalBuy -= maxBuyStockObj.totalAmount;
+    //set new price for stock
+    changedStock.price = +data.price;
+
+    const remainAmount = +data.amount - maxBuyStockObj.totalAmount;
+    // all buyers can buy this stock
+    for (let buyer of maxBuyStockObj.buyers) {
+        giveBuyerStocks(buyer.name, buyer.amount, +data.price, buyer.orderId, +data.id);
+        // emit to change data of user
+        socket.emit('newBalance', getUserByName(buyer.name));
+
+    }
+    // remove current price from buy
+    changedStock.orderBook.buy.shift();
+
+    const orderId = addSoldOrderToStock(changedStock, remainAmount, +data.price, +data.userName);
+    addSoldOrderToUser(data.userName, orderId, remainAmount);
+    increaseUserBalanceForSoldStocks(data.userName, remainAmount, +data.amount - remainAmount, +data.price, +data.id);
+
     changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
-    const user = users.find(user => user.name === data.userName);
-    socket.emit('sold', {changedStock, user});
+
+    socket.emit('sold', {changedStock, user: getUserByName(data.userName)});
 }
 
 const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
     // decrement total from buy on this stock
-    changedStock.totalSold -= changedStock.orderBook.sold[changedStock.orderBook.sold.length - 1].totalAmount;
-
+    changedStock.orderBook.totalSold -= changedStock.orderBook.sold[changedStock.orderBook.sold.length - 1].totalAmount;
     //set new price for stock
     changedStock.price = +data.price;
 
@@ -185,78 +234,64 @@ const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
     // remove current price from sold
     changedStock.orderBook.sold.pop();
 
-    //push new sold order
-    changedStock.orderBook.buy.push({
-        price: +data.price,
-        buyers: [{
+    const buyerUser = users.find(user => user.name === data.userName);
+    if (remainAmount !== 0) {
+        //add to buyerUser user this order
+        buyerUser.readyBuy.push({
             orderId: newOrderId,
-            name: data.userName,
             amount: remainAmount
-        }],
-        totalAmount: remainAmount,
-    })
-
-    //add to buyerUser user this order
-    const buyerUser = users.find(user => user.name === data.userName)
-    buyerUser.readyBuy.push({
-        orderId: newOrderId,
-        amount: remainAmount
-    });
+        });
+        //push new sold order
+        changedStock.orderBook.buy.push({
+            price: +data.price,
+            buyers: [{
+                orderId: newOrderId,
+                name: data.userName,
+                amount: remainAmount
+            }],
+            totalAmount: remainAmount,
+        })
+    }
     //add balance for buy stocks
     buyerUser.balance -= (+data.amount - remainAmount) * +data.price;
-    buyerUser.frozenBalance+= remainAmount * +data.price;
+    buyerUser.frozenBalance += remainAmount * +data.price;
     //remove buy stocks
     const buyerStock = buyerUser.stocks.find(stock => stock.id === +data.id);
-    buyerStock.price = +(((buyerStock.price + +data.price) / buyerStock.amount).toFixed(2));
     buyerStock.amount = buyerStock.amount + (+data.amount - remainAmount);
+    buyerStock.price = +(((buyerStock.price + +data.price) / (+data.amount - remainAmount + 1)).toFixed(2));
     changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
     socket.emit('buy', {changedStock, user: buyerUser});
 }
 
 const soldAllStocks = (changedStock, socket, data) => {
-    changedStock.price = +data.price;
-
-    changedStock.orderBook.buy[0].totalAmount -= +data.amount;
-    changedStock.orderBook.totalBuy -= +data.amount;
-    console.log(changedStock)
+    // helper variable
     let remain = +data.amount;
+    const maximumStockBuyObj = getMaximumStockBuyObj(changedStock);
 
-    //remove sold stock
-    const soldUser = users.find(user => user.name === data.userName);
-    soldUser.balance += +data.amount * +data.price;
-    soldUser.stocks.find(stock => stock.id === +data.id).amount -= data.amount;
-
+    increaseUserBalanceForSoldStocks(data.userName, 0, +data.amount, +data.price, +data.id);
 
     while (remain !== 0) {
-        for (let buyer of changedStock.orderBook.buy[0].buyers) {
+        for (let buyer of maximumStockBuyObj.buyers) {
             // find buyer
-            const user = users.find(user => user.name === buyer.name);
+            const user = getUserByName(buyer.name);
             // find this stock on buyer
             const userCurrentStock = user.stocks.find(stock => stock.id === +data.id);
             // remove order from buyer
             if (buyer.amount <= remain) {
-
-                user.readyBuy = user.readyBuy.filter(order => order.orderId !== buyer.orderId);
-
+                removeBuyOrderById(user, buyer.orderId);
                 remain -= buyer.amount;
-
-                userCurrentStock.amount += +buyer.amount;
-                user.balance -= +buyer.amount * +data.price;
-                userCurrentStock.price = +(((userCurrentStock.price + +data.price) / userCurrentStock.amount).toFixed(2))
-                changedStock.orderBook.buy[0].buyers.shift();
+                increaseUserAmountOfStocks(user, userCurrentStock, buyer.amount, +data.price);
+                maximumStockBuyObj.buyers.shift();
             } else {
-                changedStock.orderBook.buy[0].buyers[0].amount -= remain;
-                console.log(buyer, user.readyBuy);
+                maximumStockBuyObj.buyers[0].amount -= remain;
                 user.readyBuy.find(order => order.orderId === buyer.orderId).amount -= remain;
-                user.balance -= remain * +data.price;
-                userCurrentStock.amount += remain;
-                userCurrentStock.price = +(((userCurrentStock.price + +data.price) / userCurrentStock.amount).toFixed(2))
+                increaseUserAmountOfStocks(user, userCurrentStock, remain, +data.price);
                 remain = 0;
             }
         }
 
     }
-    socket.emit('sold', {changedStock, user: soldUser});
+    socket.emit('sold', {changedStock, user: getUserByName(data.userName)});
 }
 
 
@@ -271,8 +306,18 @@ const buyAllStocks = (changedStock, socket, data) => {
     const buyUser = users.find(user => user.name === data.userName);
     buyUser.balance -= +data.amount * +data.price;
     const buyUserStocks = buyUser.stocks.find(stock => stock.id === +data.id);
-    buyUserStocks.amount += data.amount;
-    buyUserStocks.price = +(((buyUserStocks.price + +data.price) / buyUserStocks.amount).toFixed(2));
+    if (!buyUserStocks) {
+        buyUser.stocks.push({
+            id: +data.id,
+            amount: +data.amount,
+            price: +data.price,
+            frozenAmount: 0
+        })
+    }
+    else {
+        buyUserStocks.amount += data.amount;
+        buyUserStocks.price = +(((buyUserStocks.price + +data.price) / (+data.amount+1)).toFixed(2));
+    }
 
 
     while (remain !== 0) {
@@ -304,6 +349,14 @@ const buyAllStocks = (changedStock, socket, data) => {
     socket.emit('buy', {changedStock, user: buyUser});
 }
 
+const getChangedStock = (stockId) => {
+    return stocks.find(stock => stock.id === +stockId);
+}
+
+const getMaximumStockBuyObj = (changedStock) => {
+    return changedStock.orderBook.buy[0];
+}
+
 io.on('connection', (socket) => {
     console.log('a user connected');
     /*setInterval(() => {
@@ -313,29 +366,31 @@ io.on('connection', (socket) => {
 
     }, 5000);*/
     socket.on('sold', (data) => {
-        // find stock that we want to sold
-        const changedStock = stocks.find(stock => stock.id === +data.id);
+        // find stock that we want to change
+        const changedStock = getChangedStock(data.id);
 
-        if (changedStock.orderBook.buy.length) {
-            // can sold
-            if (+data.price === changedStock.orderBook.buy[0].price) {
-                // cannot enough amount in buy
-                if (changedStock.orderBook.buy[0].totalAmount <= +data.amount) {
-                    soldWithBuyAndAddNewSold(changedStock, socket, data);
-                } else {
-                    //sold all
-                    soldAllStocks(changedStock, socket, data);
-                }
-                return;
+        const maxBuyStockObj = getMaximumStockBuyObj(changedStock);
+
+        if (changedStock.orderBook.buy.length && +data.price === maxBuyStockObj.price) {
+            // not enough amount in buy
+            if (maxBuyStockObj.totalAmount <= +data.amount) {
+                soldWithBuyAndAddNewSold(changedStock, socket, data);
+            } else {
+                // change stock price
+                changedStock.price = +data.price;
+
+                maxBuyStockObj.totalAmount -= +data.amount;
+                changedStock.orderBook.totalBuy -= +data.amount;
+                //sold all
+                soldAllStocks(changedStock, socket, data);
             }
+            return;
         }
 
         //find user that want to sold stocks
         const user = users.find(user => user.name === data.userName);
-        console.log(data)
         const userStock = user.stocks.find(stock => stock.id === +data.id);
         userStock.frozenAmount += +data.amount;
-        console.log(user, data)
         changedStock.orderBook.totalSold += +data.amount;
         const order = changedStock.orderBook.sold.find(order => order.price === +data.price);
         //if there is this price
@@ -389,8 +444,7 @@ io.on('connection', (socket) => {
 
         //find user that want to buy stocks
         const user = users.find(user => user.name === data.userName);
-        user.frozenBalance+= +data.amount * +data.price;
-
+        user.frozenBalance += +data.amount * +data.price;
         changedStock.orderBook.totalBuy += +data.amount;
         const order = changedStock.orderBook.buy.find(order => order.price === +data.price);
         //if there is this price

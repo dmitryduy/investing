@@ -14,6 +14,7 @@ export const BuySoldContainer = styled.div`
 export const BuySoldItem = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex: 1;
   h5 {
     font-size: 13px;
@@ -31,6 +32,7 @@ export const BuySoldItem = styled.div`
 
 export const BuySoldButton = styled(Link)`
   background-color: #ffdd2d;
+  border-radius: 5px;
   border: none;
   padding: 15px 23px;
   text-align: center;

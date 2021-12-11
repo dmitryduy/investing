@@ -9,6 +9,7 @@ import { fetchUser, fetchUserAC } from "./reducers/userReducer";
 import socket from "./sockets";
 import { useEffect } from "react";
 import BuyPage from "./pages/BuyPage";
+import Catalog from "./pages/Catalog";
 
 const Container = styled.div`
   width: 70%;
@@ -41,6 +42,7 @@ function App() {
                     <Route path='/stocks/:id' element={<StockPage/>}/>
                     <Route path='/sold/:id' element={<SoldPage/>}/>
                     <Route path='/buy/:id' element={<BuyPage/>}/>
+                    <Route path='/catalog/' element={<Catalog/>}/>
                 </Routes>
             </Container>
         </BrowserRouter>

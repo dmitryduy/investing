@@ -40,8 +40,12 @@ export const Button = styled.button`
   margin-right: 5px;
   cursor: pointer;
   transition: .3s;
-  color: #000;
+  color: #3a3a3a;
   &:hover {
     background-color: #fcc521;
+  }
+  &:disabled {
+    background-color: rgba(236,241,247,.56);
+    cursor: default;
   }
 `;

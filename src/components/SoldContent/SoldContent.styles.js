@@ -18,6 +18,7 @@ export const SoldBuyInfo = styled.div`
   img {
     height: 100%;
     margin-right: 10px;
+    border-radius: 50%;
   }
 `;
 

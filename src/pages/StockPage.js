@@ -19,8 +19,8 @@ const StockPage = () => {
             .then(response => response.json())
             .then(data => {
                 setStock(data);
-                dispatch(changeSoldPriceAC(data.orderBook.buy[0].price));
-                dispatch(changeBuyPriceAC(data.orderBook.sold[data.orderBook.sold.length - 1].price))
+                dispatch(changeSoldPriceAC(data.orderBook.buy[0]?.price));
+                dispatch(changeBuyPriceAC(data.orderBook.sold[data.orderBook.sold.length - 1]?.price))
             });
     }, []);
 

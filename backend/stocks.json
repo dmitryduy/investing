@@ -14,10 +14,11 @@
     "stockExchangeName": "СПБ Биржа",
     "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
   },
-  "bids": {
-    "sold":[],
-    "buy": [],
-    "total": 0
+  "orderBook": {
+    "totalSold": 0,
+    "totalBuy": 0,
+    "sold": [],
+    "buy": []
   }
 },
   {
@@ -36,10 +37,11 @@
       "stockExchangeName": "СПБ Биржа",
       "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
     },
-    "bids": {
-      "sold":[],
-      "buy": [],
-      "total": 0
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
     }
   }
 

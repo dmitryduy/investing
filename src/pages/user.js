@@ -6,7 +6,7 @@ import Stocks from "../components/Stocks/Stocks";
 const User = () => {
     return (
         <>
-            <UserNavbar/>
+            <UserNavbar active='review'/>
             <UserInfoCard/>
             <Stocks/>
         </>

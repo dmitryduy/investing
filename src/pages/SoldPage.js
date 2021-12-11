@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled from "styled-components";
 import OrderBook from "../components/OrderBook/OrderBook";
 import SoldContent from "../components/SoldContent/SoldContent";
 import { useParams } from "react-router";
@@ -18,6 +17,7 @@ const SoldPage = () => {
     useEffect(() => {
         socket.on('sold', (data) => {
             setStock(data.changedStock);
+            console.log(data.changedStock)
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
             }
@@ -34,7 +34,7 @@ const SoldPage = () => {
             <>
                 <BuySoldAbout title='Продажа'/>
                 <div style={{display: 'flex'}}>
-                    <SoldContent minSoldPrice={stock.orderBook.buy[0].price}
+                    <SoldContent minSoldPrice={stock.orderBook.buy[0]?.price || 0.01}
                                  id={id}
                                  lastOrder={stock.price}
                                  img={stock.image}

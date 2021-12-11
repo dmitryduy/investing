@@ -1,12 +1,13 @@
 import React from 'react';
 import { OrderBookContainer, OrderBookHeader, OrderBookItem } from "./OrderBook.styles";
 import { useDispatch } from "react-redux";
-import { changeSoldPriceAC } from "../../reducers/settingsReducer";
+import { changeBuyPriceAC, changeSoldPriceAC } from "../../reducers/settingsReducer";
 
 const OrderBook = ({orderBook}) => {
     const dispatch = useDispatch();
     const changeChoosePrice = (newPrice) => {
-        dispatch(changeSoldPriceAC(newPrice))
+        dispatch(changeSoldPriceAC(newPrice));
+        dispatch(changeBuyPriceAC(newPrice))
     }
     return (
         <OrderBookContainer>

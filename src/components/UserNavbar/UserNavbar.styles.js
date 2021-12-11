@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const UserNavbarContainer = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ export const UserNavbarMenu = styled.nav`
   display: flex;
 `;
 
-export const UserNavbarItem = styled.li`
+export const UserNavbarItem = styled(Link)`
   margin-left: 20px;
   color: rgba(0,0,0,.54);
   font-weight: 400;

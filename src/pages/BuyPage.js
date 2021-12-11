@@ -13,17 +13,19 @@ const BuyPage = () => {
     const [stock, setStock] = useState(null);
     const dispatch = useDispatch();
     const userId = useSelector(({user}) => user.user.id);
-
     useEffect(() => {
         socket.on('buy', (data) => {
             setStock(data.changedStock);
+            console.log(data.changedStock)
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
             }
         })
         fetch(`http://localhost:5000/stock/${id}`)
             .then(response => response.json())
-            .then(data => setStock(data));
+            .then(data => {
+                setStock(data)
+            });
         return () => {
             socket.off('buy');
         }
@@ -34,7 +36,7 @@ const BuyPage = () => {
         <>
             <BuySoldAbout title='Покупка'/>
             <div style={{display:'flex'}}>
-                <BuyContent maxBuyPrice={stock.orderBook.sold[stock.orderBook.sold.length - 1].price}
+                <BuyContent maxBuyPrice={stock.orderBook.sold[stock.orderBook.sold.length - 1]?.price || 999999}
                              id={id}
                              lastOrder={stock.price}
                              img={stock.image}

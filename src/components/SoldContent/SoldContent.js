@@ -13,10 +13,9 @@ const SoldContent = ({id, name, img, ticker, lastOrder, minSoldPrice}) => {
     const [amountAnimation, setAmountAnimation] = useState(false);
     const [maxAmountAnimation, setMaxAmountAnimation] = useState(false);
     const [minPriceAnimation, setMinPriceAnimation] = useState(false);
-    const {
-        amount: stockAmount,
-        frozenAmount
-    } = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id));
+
+    const stockAmount = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id))?.amount || 0;
+    const frozenAmount = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id))?.frozenAmount || 0;
     const userName = useSelector(({user}) => user.user.name);
 
     const changePrice = (event) => {
