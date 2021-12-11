@@ -1,14 +1,14 @@
 import './App.css';
 import User from "./pages/user";
 import styled from "styled-components";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import store from "./store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StockPage from "./pages/StockPage";
 import SoldPage from "./pages/SoldPage";
 import { fetchUser, fetchUserAC } from "./reducers/userReducer";
 import socket from "./sockets";
 import { useEffect } from "react";
+import BuyPage from "./pages/BuyPage";
 
 const Container = styled.div`
   width: 70%;
@@ -40,6 +40,7 @@ function App() {
                     <Route exact path='/' element={<User/>}/>
                     <Route path='/stocks/:id' element={<StockPage/>}/>
                     <Route path='/sold/:id' element={<SoldPage/>}/>
+                    <Route path='/buy/:id' element={<BuyPage/>}/>
                 </Routes>
             </Container>
         </BrowserRouter>

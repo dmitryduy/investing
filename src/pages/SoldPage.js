@@ -8,9 +8,6 @@ import socket from "../sockets";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAC } from "../reducers/userReducer";
 
-const SoldPageContainer = styled.div`
-  display: flex;
-`;
 
 const SoldPage = () => {
     const {id} = useParams();
@@ -36,7 +33,7 @@ const SoldPage = () => {
         stock &&
             <>
                 <BuySoldAbout title='Продажа'/>
-                <SoldPageContainer>
+                <div style={{display: 'flex'}}>
                     <SoldContent minSoldPrice={stock.orderBook.buy[0].price}
                                  id={id}
                                  lastOrder={stock.price}
@@ -44,7 +41,7 @@ const SoldPage = () => {
                                  name={stock.name}
                                  ticker={stock.ticker}/>
                     <OrderBook id={id} orderBook={stock.orderBook}/>
-                </SoldPageContainer>
+                </div>
             </>
     );
 };

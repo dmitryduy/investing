@@ -4,7 +4,7 @@ import styled from "styled-components";
 import StockPageMain from "../components/StockPageMain/StockPageMain";
 import BuySold from "../components/BuySold/BuySold";
 import { useDispatch } from "react-redux";
-import { changeSoldPriceAC } from "../reducers/settingsReducer";
+import { changeBuyPriceAC, changeSoldPriceAC } from "../reducers/settingsReducer";
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +20,7 @@ const StockPage = () => {
             .then(data => {
                 setStock(data);
                 dispatch(changeSoldPriceAC(data.orderBook.buy[0].price));
+                dispatch(changeBuyPriceAC(data.orderBook.sold[data.orderBook.sold.length - 1].price))
             });
     }, []);
 

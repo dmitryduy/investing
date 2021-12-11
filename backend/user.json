@@ -6,20 +6,7 @@
     "balance": 20000,
     "frozenBalance": 0,
     "readyBuy": [],
-    "readySold": [
-      {
-        "orderId": 1,
-        "amount": 4
-      },
-      {
-        "orderId": 2,
-        "amount": 4
-      },
-      {
-        "orderId": 3,
-        "amount": 2
-      }
-    ],
+    "readySold": [],
     "stocks": [
       {
         "id": 1,
@@ -51,7 +38,20 @@
         "amount": 4
       }
     ],
-    "readySold": [],
+    "readySold": [
+      {
+        "orderId": 1,
+        "amount": 4
+      },
+      {
+        "orderId": 2,
+        "amount": 4
+      },
+      {
+        "orderId": 3,
+        "amount": 2
+      }
+    ],
     "stocks": [
       {
         "id": 1,
