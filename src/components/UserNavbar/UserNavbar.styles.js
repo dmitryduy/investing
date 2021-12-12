@@ -8,6 +8,7 @@ export const UserNavbarContainer = styled.div`
   border-bottom: 2px solid #dddfe0;
   align-items: center;
   margin-bottom: 40px;
+  position: relative;
 `;
 
 export const UserNavbarTitle = styled.h2`
@@ -36,5 +37,16 @@ export const UserNavbarItem = styled(Link)`
   &.not-active:hover {
     color: rgba(0,0,0,.8);
     border-bottom: 3px solid #dddfe0;
+  }
+`;
+
+export const Back = styled.span`
+  position: absolute;
+  top: 120%;
+  color: rgba(0,0,0,.8);
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    color: #000;
   }
 `;

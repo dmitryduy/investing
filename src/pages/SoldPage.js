@@ -17,7 +17,9 @@ const SoldPage = () => {
     useEffect(() => {
         socket.on('change order book', (data) => {
             console.log(data)
-            setStock(data.changedStock);
+            if (+data.changedStock.id === +id) {
+                setStock(data.changedStock);
+            }
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
             }

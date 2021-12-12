@@ -77,7 +77,7 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
 
     return (
         <SoldContentContainer>
-            <SoldBuyInfo>
+            <SoldBuyInfo to={`/stocks/${id}`}>
                 <img src={img}/>
                 <StockName>
                     <span className='ticker'>{ticker}</span>

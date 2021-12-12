@@ -1,10 +1,18 @@
 import React from 'react';
-import { UserNavbarContainer, UserNavbarItem, UserNavbarMenu, UserNavbarTitle } from "./UserNavbar.styles";
+import { Back, UserNavbarContainer, UserNavbarItem, UserNavbarMenu, UserNavbarTitle } from "./UserNavbar.styles";
+import { useNavigate } from "react-router";
 
 
 const UserNavbar = ({active, title}) => {
+    const navigate = useNavigate();
+
+    const pushBack = () => {
+        navigate(-1);
+    }
+
     return (
-        <UserNavbarContainer>
+            <UserNavbarContainer>
+                {active !== 'review'? <Back onClick={pushBack}>Вернуться назад</Back>: ''}
             <UserNavbarTitle>{title}</UserNavbarTitle>
             <UserNavbarMenu>
                 <UserNavbarItem to='/' className={active === 'review' ? 'active': 'not-active'}>Обзор</UserNavbarItem>

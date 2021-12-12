@@ -29,7 +29,7 @@ const Stocks = () => {
                     <li>За сегодня</li>
                 </div>
                 {loaded ?
-                    stockData.map(stock => <StockRow key={stock.id} item={stock}/>)
+                    stockData.sort((a, b) => a.name < b.name? -1: 0).map(stock => <StockRow key={stock.id} item={stock}/>)
                     :
                     <p style={{margin: '0 auto', padding: '10px'}}>Loading...</p>
                 }

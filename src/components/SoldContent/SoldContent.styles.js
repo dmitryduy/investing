@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 
 export const SoldContentContainer = styled.div`
@@ -6,7 +7,7 @@ export const SoldContentContainer = styled.div`
   margin-right: 20px;
 `;
 
-export const SoldBuyInfo = styled.div`
+export const SoldBuyInfo = styled(Link)`
   display: flex;
   height: 90px;
   padding: 20px;

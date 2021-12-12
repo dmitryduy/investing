@@ -8,6 +8,7 @@ const Header = styled.div`
   padding: 16px;
   border-bottom: 1px solid #eaecee;
   color: #5485b8;
+  margin-top: 100px;
   span:first-child {
     flex: 1;
   }
