@@ -2,70 +2,112 @@
   {
     "id": 1,
     "name": "Alex",
-    "startBalance": 20000,
+    "startBalance": 49410.87,
     "balance": 20000,
     "frozenBalance": 0,
     "readyBuy": [],
     "readySold": [],
     "stocks": [
-
+      {
+        "id": 1,
+        "amount": 1000,
+        "price": 9.37,
+        "frozenAmount": 0
+      },
+      {
+        "id": 3,
+        "amount": 222,
+        "price": 23.93,
+        "frozenAmount": 0
+      },
+      {
+        "id": 5,
+        "amount": 1643,
+        "price": 5.05,
+        "frozenAmount": 0
+      },
+      {
+        "id": 7,
+        "amount": 22,
+        "price": 43.43,
+        "frozenAmount": 0
+      },
+      {
+        "id": 9,
+        "amount": 21,
+        "price": 254.8,
+        "frozenAmount": 0
+      },
+      {
+        "id": 10,
+        "amount": 1,
+        "price": 125,
+        "frozenAmount": 0
+      }
     ]
   },
   {
     "id": 2,
     "name": "Petr",
-    "startBalance": 1000000,
-    "balance": 1000000,
+    "startBalance": 123458.66,
+    "balance": 100000,
     "frozenBalance": 0,
     "readyBuy": [],
     "readySold": [],
     "stocks": [
-
-    ]
-  },
-  {
-    "id": 3,
-    "name": "Admin",
-    "startBalance": 20000,
-    "balance": 20000,
-    "frozenBalance": 0,
-    "readyBuy": [
       {
-        "orderId": 4,
-        "amount": 1000
+        "id": 3,
+        "amount": 10,
+        "price": 23.93,
+        "frozenAmount": 0
       },
       {
-        "orderId": 5,
-        "amount": 4
-      }
-    ],
-    "readySold": [
-      {
-        "orderId": 1,
-        "amount": 1000
-      },
-      {
-        "orderId": 2,
-        "amount": 4
-      },
-      {
-        "orderId": 3,
-        "amount": 2
-      }
-    ],
-    "stocks": [
-      {
-        "id": 1,
-        "amount": 5,
-        "price": 1,
+        "id": 5,
+        "amount": 50,
+        "price": 5.05,
         "frozenAmount": 0
       },
       {
         "id": 2,
-        "amount": 10,
-        "price": 1200,
+        "amount": 23,
+        "price": 53.16,
+        "frozenAmount": 0
+      },
+      {
+        "id": 4,
+        "amount": 4,
+        "price": 3441.9,
+        "frozenAmount": 0
+      },
+      {
+        "id": 6,
+        "amount": 2,
+        "price": 2970,
+        "frozenAmount": 0
+      },
+      {
+        "id": 8,
+        "amount": 13,
+        "price": 58.66,
+        "frozenAmount": 0
+      },
+      {
+        "id": 9,
+        "amount": 5,
+        "price": 254.8,
         "frozenAmount": 0
       }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Tom",
+    "startBalance": 100,
+    "balance": 100,
+    "frozenBalance": 0,
+    "readyBuy": [],
+    "readySold": [],
+    "stocks": [
     ]
   }
 ]

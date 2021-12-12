@@ -9,6 +9,7 @@ import {
     StockTotalPrice
 } from "./StockRow.styles";
 import { useSelector } from "react-redux";
+import LockSvg from "../../LockSvg/LockSvg";
 
 
 const StockRow = ({item: stock}) => {
@@ -17,7 +18,7 @@ const StockRow = ({item: stock}) => {
     if (!userStockData) {
         return null;
     }
-    const sign = stock.price > userStockData.price ? '+' : stock.price < userStockData.price? '-': '';
+    const sign = stock.price > userStockData.price ? '+' : stock.price < userStockData.price ? '-' : '';
     return (
         <StockRowContainer to={`/stocks/${stock.id}`}>
             <StockName>
@@ -36,9 +37,13 @@ const StockRow = ({item: stock}) => {
                 <span className='current'>{stock.price.toLocaleString('RU-ru')} $</span></StockPrice>
             <StockTotalPrice>
                 <span className='price'>{(userStockData.amount * stock.price).toLocaleString('RU-ru')} $</span>
-                <span className='amount'>{userStockData.amount} шт.</span>
+                <span className='amount'>{userStockData.amount} шт.
+                    {userStockData.frozenAmount ? <span>
+                        ({<LockSvg color='#000' fontSize={11}/>} {userStockData.frozenAmount} шт.)
+                        </span>: '' }
+                    </span>
             </StockTotalPrice>
-            <StockProfit className={sign === '+' ? 'positive' : sign === '-'? 'negative': ''}>
+            <StockProfit className={sign === '+' ? 'positive' : sign === '-' ? 'negative' : ''}>
                 <span className='dollars'>
                     {sign}
                     {Math.abs(userStockData.amount * userStockData.price - stock.price * userStockData.amount).toLocaleString('RU-ru')} $</span>

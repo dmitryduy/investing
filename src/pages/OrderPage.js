@@ -11,7 +11,8 @@ const OrderPage = () => {
     return (
         <div>
             <UserNavbar title='Активные заявки' active='order'/>
-            {orderList.map(orderItem => <OrderRow key={orderItem.orderId} totalAmount={orderItem.totalAmount}
+            {orderList.map(orderItem => <OrderRow key={orderItem.orderId} id={orderItem.orderId}
+                                                  totalAmount={orderItem.totalAmount}
                                                   type={orderItem.type} price={orderItem.price}
                                                   stockName={orderItem.stockName} amount={orderItem.amount}/>)}
         </div>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { UserInfoCardContainer, UserInfoCardItem, UserInfoProfit } from "./UserInfoCard.styles";
-import socket from "../../sockets";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../../reducers/userReducer";
-import { use } from "express/lib/router";
+import { useSelector } from "react-redux";
+import LockSvg from "../LockSvg/LockSvg";
 
 const UserInfoCard = () => {
 
     const loaded = useSelector(({user}) => user.loaded);
+    const stockLoaded = useSelector(({stock}) => stock.loaded);
     const user = useSelector(({user}) => user.user);
     const stock = useSelector(({stock}) => stock.stockData);
     const totalStockPrice = stock && user.stocks.reduce((prev, userStock) => {
@@ -18,16 +17,19 @@ const UserInfoCard = () => {
     const [sign, setSign] = useState('');
 
     useEffect(() => {
-        console.log(user.startBalance, user.balance + totalStockPrice)
-        if (Math.floor(user.startBalance*100)/100 < Math.floor((user.balance + totalStockPrice) * 100) / 100) {
-            setSign('+')
+        if (stockLoaded) {
+            console.log(user.startBalance, user.balance + totalStockPrice, totalStockPrice, user.balance)
+            if (Math.floor(user.startBalance*100)/100 < Math.floor((user.balance + totalStockPrice) * 100) / 100) {
+                setSign('+')
+            }
+            else if (Math.floor(user.startBalance*100)/100 > Math.floor((user.balance + totalStockPrice) * 100) / 100) {
+                setSign('-')
+            }
+            else {
+                setSign('');
+            }
         }
-        else if (Math.floor(user.startBalance*100)/100 > Math.floor((user.balance + totalStockPrice) * 100) / 100) {
-            setSign('-')
-        }
-        else {
-            setSign('');
-        }
+
     },[user]);
 
 
@@ -49,6 +51,12 @@ const UserInfoCard = () => {
             <UserInfoCardItem>
                 <h6>Имя</h6>
                 <p>{user.name}</p>
+            </UserInfoCardItem>
+            <UserInfoCardItem>
+                <h6>Осталось денег:</h6>
+                <p>{user.balance.toLocaleString('RU-ru')}${user.frozenBalance ? <span>
+                    (<LockSvg color='#fff' fontSize={14}/> {user.frozenBalance.toLocaleString('RU-ru')} $)
+                </span>: ''}</p>
             </UserInfoCardItem>
         </UserInfoCardContainer>
         :

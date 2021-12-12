@@ -29,6 +29,7 @@ const OrderBook = ({orderBook}) => {
                 <span className='sold'>Продажа</span>
             </OrderBookHeader>
             {orderBook.sold.map(order => {
+                console.log(order)
                 const showUserOrders = userOrders.find(userOrder => userOrder.price === order.price) || false;
                 return (
                     <OrderBookItem onClick={() => changeChoosePrice(order.price)} className='sold' key={order.price}>

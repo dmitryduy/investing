@@ -45,6 +45,7 @@ const SoldContent = ({id, name, img, ticker, lastOrder, minSoldPrice}) => {
             setMinPriceAnimation(true);
             return;
         }
+        console.log(price, lastOrder)
         socket.emit('sold', {id, price, amount, userName});
     }
 
@@ -65,7 +66,8 @@ const SoldContent = ({id, name, img, ticker, lastOrder, minSoldPrice}) => {
         }
     }, [minPriceAnimation]);
     useEffect(() => {
-        setPrice(chooseSoldPrice);
+        if (chooseSoldPrice)
+            setPrice(chooseSoldPrice);
         setSoldPriceAnimation(true);
         setTimeout(() => setSoldPriceAnimation(false), 200);
     }, [chooseSoldPrice]);

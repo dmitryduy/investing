@@ -15,21 +15,21 @@ import { useEffect } from "react";
 
 const Container = styled.div`
   width: 70%;
-  margin: 100px auto 0;
+  margin: 100px auto 100px;
 
 `;
 
 function App() {
     const userId = useSelector(({user}) => user.user?.id);
     const dispatch = useDispatch();
-
     socket.on('newBalance', (data => {
-        console.log(data)
+        console.log(data, userId)
         if (data.id === userId)
             dispatch(fetchUserAC(data));
     }));
-
+    console.log(userId)
     useEffect(() => {
+
         return () => {
             socket.off('newBalance');
         };

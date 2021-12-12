@@ -16,46 +16,7 @@ app.use(bodyParser.json());
 const users = JSON.parse(fs.readFileSync('backend/user.json', 'utf8'));
 const stocks = JSON.parse(fs.readFileSync('backend/stocks.json', 'utf8'));
 
-let orderId = 10;
-
-stocks[0].orderBook = {
-    totalSold: 1006,
-    totalBuy: 1004,
-    sold: [
-        {
-            price: 9.4,
-            totalAmount: 1000,
-            sellers: [
-                {orderId: 1, name: 'Admin', amount: 1000}
-            ]
-        },
-        {
-            price: 9.38,
-            totalAmount: 6,
-            sellers: [
-                {orderId: 2, name: 'Admin', amount: 4},
-                {orderId: 3, name: 'Admin', amount: 2}
-            ]
-        },
-    ],
-    buy: [
-        {
-
-            price: 9.35,
-            totalAmount: 1000,
-            buyers: [
-                {orderId: 4, name: 'Admin', amount: 1000}
-            ]
-        },
-        {
-            price: 9.3,
-            totalAmount: 4,
-            buyers: [
-                {orderId: 5, name: 'Admin', amount: 4}
-            ]
-        },
-    ],
-};
+let orderId = 0;
 
 
 app.get('/user/:userName', (req, res) => {
@@ -121,8 +82,19 @@ const giveBuyerStocks = (buyerName, amount, price, orderId, stockId) => {
     user.frozenBalance -= amount * price;
     //add stock to user and change average price
     const userCurrentStock = user.stocks.find(stock => stock.id === stockId);
-    userCurrentStock.amount += amount;
-    userCurrentStock.price = +(((userCurrentStock.price + price * amount) / (amount + 1)).toFixed(2));
+    if (userCurrentStock) {
+        userCurrentStock.amount += amount;
+        userCurrentStock.price = +(((userCurrentStock.price + price * amount) / (amount + 1)).toFixed(2));
+    }
+    else {
+        user.stocks.push({
+            id: stockId,
+            frozenBalance: 0,
+            amount: amount,
+            price: price,
+        })
+    }
+
 }
 
 const addSoldOrderToStock = (changedStock, amount, price, sellerName) => {
@@ -279,8 +251,7 @@ const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
         buyerStock.amount = buyerStock.amount + (+data.amount - remainAmount);
         buyerStock.price = +(((buyerStock.price + +data.price * (+data.amount - remainAmount)) / (+data.amount - remainAmount + 1)).toFixed(2));
 
-    }
-    else {
+    } else {
         buyerUser.stocks.push({
             id: +data.id,
             amount: +data.amount - remainAmount,
@@ -288,7 +259,7 @@ const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
             frozenAmount: 0
         })
     }
-     changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
+    changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
     io.sockets.emit('change order book', {changedStock, user: buyerUser});
 }
 
@@ -394,6 +365,8 @@ const getMaximumStockBuyObj = (changedStock) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
+
+
     socket.on('sold', (data) => {
         // find stock that we want to change
         const changedStock = getChangedStock(data.id);
@@ -449,6 +422,7 @@ io.on('connection', (socket) => {
             });
         } else {
             const newOrderId = orderId++;
+            console.log(data)
             changedStock.orderBook.sold.push({
                 price: +data.price,
                 sellers: [{

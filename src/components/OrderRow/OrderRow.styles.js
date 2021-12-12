@@ -6,7 +6,9 @@ export const OrderTop = styled.div`
   padding: 10px;
   font-size: 13px;
   border-radius: 10px 10px 0 0 ;
+  position: relative;
 `;
+
 
 export const OrderRowContainer = styled.div`
   display: flex;
