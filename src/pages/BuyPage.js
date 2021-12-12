@@ -13,7 +13,7 @@ const BuyPage = () => {
     const dispatch = useDispatch();
     const userId = useSelector(({user}) => user.user.id);
     useEffect(() => {
-        socket.on('buy', (data) => {
+        socket.on('change order book', (data) => {
             setStock(data.changedStock);
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
@@ -23,7 +23,7 @@ const BuyPage = () => {
             .then(response => response.json())
             .then(data => setStock(data));
         return () => {
-            socket.off('buy');
+            socket.off('change order book');
         }
     }, []);
 

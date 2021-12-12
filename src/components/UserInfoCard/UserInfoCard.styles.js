@@ -27,6 +27,7 @@ export const UserInfoCardItem = styled.div`
 `;
 
 export const UserInfoProfit = styled.p`
+  color: #333;
   &.positive {
     color: #00a127;
   }

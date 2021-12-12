@@ -13,6 +13,18 @@
   },
   {
     "id": 2,
+    "name": "Petr",
+    "startBalance": 1000000,
+    "balance": 1000000,
+    "frozenBalance": 0,
+    "readyBuy": [],
+    "readySold": [],
+    "stocks": [
+
+    ]
+  },
+  {
+    "id": 3,
     "name": "Admin",
     "startBalance": 20000,
     "balance": 20000,
@@ -30,7 +42,7 @@
     "readySold": [
       {
         "orderId": 1,
-        "amount": 4
+        "amount": 1000
       },
       {
         "orderId": 2,

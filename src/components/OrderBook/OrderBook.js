@@ -21,7 +21,6 @@ const OrderBook = ({orderBook}) => {
             userOrders.push({price: userOrder.price, amount: userOrder.amount});
         }
     });
-    console.log(userOrders, readySold, readyBuy)
     return (
         <OrderBookContainer>
             <OrderBookHeader>

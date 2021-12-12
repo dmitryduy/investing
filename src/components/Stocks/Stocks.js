@@ -4,7 +4,7 @@ import {
 } from "./Stocks.styles";
 import StockRow from "./StockRow/StockRow";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserStock, fetchUserStockAC } from "../../reducers/stockReducer";
+import { fetchUserStock } from "../../reducers/stockReducer";
 
 
 const Stocks = () => {
@@ -12,10 +12,8 @@ const Stocks = () => {
     const {stockData, loaded} = useSelector(({stock}) => stock);
     const stocks = useSelector(({user}) => user?.user?.stocks);
     const dispatch = useDispatch();
-    console.log(stockData, stocks)
     useEffect(() => {
         if (stocks) {
-            console.log(40594584095840958409584093)
             dispatch(fetchUserStock(stocks.map(stock => stock.id)));
         }
     }, [stocks]);

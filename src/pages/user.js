@@ -4,6 +4,7 @@ import UserInfoCard from "../components/UserInfoCard/UserInfoCard";
 import Stocks from "../components/Stocks/Stocks";
 
 const User = () => {
+
     return (
         <>
             <UserNavbar active='review' title='Брокерский счет'/>

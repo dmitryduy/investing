@@ -17,7 +17,7 @@ const StockRow = ({item: stock}) => {
     if (!userStockData) {
         return null;
     }
-    const sign = stock.price >= userStockData.price ? '+' : '-';
+    const sign = stock.price > userStockData.price ? '+' : stock.price < userStockData.price? '-': '';
     return (
         <StockRowContainer to={`/stocks/${stock.id}`}>
             <StockName>
@@ -38,7 +38,7 @@ const StockRow = ({item: stock}) => {
                 <span className='price'>{(userStockData.amount * stock.price).toLocaleString('RU-ru')} $</span>
                 <span className='amount'>{userStockData.amount} шт.</span>
             </StockTotalPrice>
-            <StockProfit className={sign === '+' ? 'positive' : 'negative'}>
+            <StockProfit className={sign === '+' ? 'positive' : sign === '-'? 'negative': ''}>
                 <span className='dollars'>
                     {sign}
                     {Math.abs(userStockData.amount * userStockData.price - stock.price * userStockData.amount).toLocaleString('RU-ru')} $</span>

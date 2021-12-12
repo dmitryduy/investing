@@ -1,10 +1,12 @@
 const initialState = {
     user: null,
     loaded: false,
+    error: false
 }
 
 const types = {
     FETCH_USER: 'FETCH_USER',
+    SET_ERROR: 'SET_ERROR'
 }
 
 const userReducer = (state=initialState, action) => {
@@ -13,7 +15,13 @@ const userReducer = (state=initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                loaded: true
+                loaded: true,
+                error: false
+            }
+        case types.SET_ERROR:
+            return {
+                ...state,
+                error: true
             }
         default:
             return {...state};
@@ -25,12 +33,19 @@ export const fetchUserAC = (user) => ({
     payload: user
 })
 
+export const setError = () => ({
+    type: types.SET_ERROR
+})
+
 export const fetchUser = (userName) => dispatch => {
     fetch(`http://localhost:5000/user/${userName}`)
-        .then((response) => response.json())
-        .then(data => {
-            dispatch(fetchUserAC(data))
-        });
+        .then((response) => {
+            if (response.status === 400) {
+                dispatch(setError());
+            }
+            return response.json()
+        })
+        .then(data => dispatch(fetchUserAC(data)));
 }
 
 export default userReducer;
