@@ -146,13 +146,20 @@ const addSoldOrderToStock = (changedStock, amount, price, sellerName) => {
 
 }
 
-const addSoldOrderToUser = (sellerName, orderId, amount, price) => {
+
+const getStockNameById = (stockId) => {
+    return stocks.find(stock => stock.id === stockId).name;
+}
+
+const addSoldOrderToUser = (sellerName, orderId, amount, price, stockId) => {
     //add to seller user this order
     const sellerUser = getUserByName(sellerName);
     sellerUser.readySold.push({
         orderId: orderId,
         amount: amount,
-        price: price
+        price: price,
+        stockName: getStockNameById(stockId),
+        totalAmount: amount
     });
 }
 
@@ -162,7 +169,7 @@ const increaseUserBalanceForSoldStocks = (sellerName, frozenAmount, amount, pric
     sellerUser.balance += amount * price;
     //remove sold stocks
     const sellerStock = sellerUser.stocks.find(stock => stock.id === stockId);
-
+    console.log(stockId, sellerStock);
     sellerStock.amount = sellerStock.amount - amount;
     sellerStock.frozenAmount += frozenAmount;
     if (sellerStock.amount === 0) {
@@ -174,7 +181,7 @@ const increaseUserBalanceForSoldStocks = (sellerName, frozenAmount, amount, pric
 const increaseUserAmountOfStocks = (user, userCurrentStock, amount, price) => {
     userCurrentStock.amount += amount;
     user.balance -= amount * price;
-    userCurrentStock.price = +(((userCurrentStock.price + price) / (amount+1)).toFixed(2));
+    userCurrentStock.price = +(((userCurrentStock.price + price) / (amount + 1)).toFixed(2));
 }
 
 const soldWithBuyAndAddNewSold = (changedStock, socket, data) => {
@@ -196,7 +203,7 @@ const soldWithBuyAndAddNewSold = (changedStock, socket, data) => {
     changedStock.orderBook.buy.shift();
 
     const orderId = addSoldOrderToStock(changedStock, remainAmount, +data.price, +data.userName);
-    addSoldOrderToUser(data.userName, orderId, remainAmount);
+    addSoldOrderToUser(data.userName, orderId, remainAmount, +data.id);
     increaseUserBalanceForSoldStocks(data.userName, remainAmount, +data.amount - remainAmount, +data.price, +data.id);
 
     changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
@@ -241,7 +248,9 @@ const buyWithSoldAndAddNewBuy = (changedStock, socket, data) => {
         buyerUser.readyBuy.push({
             orderId: newOrderId,
             amount: remainAmount,
-            price: +data.price
+            price: +data.price,
+            stockName: getStockNameById(+data.id),
+            totalAmount: remainAmount
         });
         //push new sold order
         changedStock.orderBook.buy.push({
@@ -315,10 +324,9 @@ const buyAllStocks = (changedStock, socket, data) => {
             price: +data.price,
             frozenAmount: 0
         })
-    }
-    else {
+    } else {
         buyUserStocks.amount += data.amount;
-        buyUserStocks.price = +(((buyUserStocks.price + +data.price) / (+data.amount+1)).toFixed(2));
+        buyUserStocks.price = +(((buyUserStocks.price + +data.price) / (+data.amount + 1)).toFixed(2));
     }
 
 
@@ -394,14 +402,13 @@ io.on('connection', (socket) => {
         const userStock = user.stocks.find(stock => stock.id === +data.id);
         if (userStock) {
             userStock.frozenAmount += +data.amount;
-        }
-       else {
-           user.stocks.push({
-               frozenAmount: +data.amount,
-               id: +data.id,
-               amount: 0,
-               price: +data.price
-           })
+        } else {
+            user.stocks.push({
+                frozenAmount: +data.amount,
+                id: +data.id,
+                amount: 0,
+                price: +data.price
+            })
         }
         changedStock.orderBook.totalSold += +data.amount;
         const order = changedStock.orderBook.sold.find(order => order.price === +data.price);
@@ -417,7 +424,9 @@ io.on('connection', (socket) => {
             user.readySold.push({
                 orderId: newOrderId,
                 amount: +data.amount,
-                price: +data.price
+                price: +data.price,
+                stockName: getStockNameById(+data.id),
+                totalAmount: +data.amount
             });
         } else {
             const newOrderId = orderId++;
@@ -433,7 +442,9 @@ io.on('connection', (socket) => {
             user.readySold.push({
                 orderId: newOrderId,
                 amount: +data.amount,
-                price: +data.price
+                price: +data.price,
+                stockName: getStockNameById(+data.id),
+                totalAmount: +data.amount
             });
         }
         changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
@@ -473,7 +484,9 @@ io.on('connection', (socket) => {
             user.readyBuy.push({
                 orderId: newOrderId,
                 amount: +data.amount,
-                price: +data.price
+                price: +data.price,
+                stockName: getStockNameById(+data.id),
+                totalAmount: +data.amount
             });
         } else {
             const newOrderId = orderId++;
@@ -489,7 +502,9 @@ io.on('connection', (socket) => {
             user.readyBuy.push({
                 orderId: newOrderId,
                 amount: +data.amount,
-                price: +data.price
+                price: +data.price,
+                stockName: getStockNameById(+data.id),
+                totalAmount: +data.amount
             });
         }
         changedStock.orderBook.buy.sort((a, b) => b.price - a.price);

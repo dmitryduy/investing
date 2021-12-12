@@ -8,7 +8,7 @@ const UserNavbar = ({active, title}) => {
             <UserNavbarTitle>{title}</UserNavbarTitle>
             <UserNavbarMenu>
                 <UserNavbarItem to='/' className={active === 'review' ? 'active': 'not-active'}>Обзор</UserNavbarItem>
-                <UserNavbarItem to='/' className='not-active'>Заявки</UserNavbarItem>
+                <UserNavbarItem to='/order' className={active === 'order' ? 'active': 'not-active'}>Заявки</UserNavbarItem>
                 <UserNavbarItem to='/catalog' className={active === 'catalog'? 'active': 'not-active'}>Каталог</UserNavbarItem>
             </UserNavbarMenu>
         </UserNavbarContainer>

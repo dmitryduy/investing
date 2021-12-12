@@ -3,10 +3,9 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import socket from "../sockets";
 import { fetchUserAC } from "../reducers/userReducer";
-import BuySoldAbout from "../components/BuySoldAbout/BuySoldAbout";
-import SoldContent from "../components/SoldContent/SoldContent";
 import OrderBook from "../components/OrderBook/OrderBook";
 import BuyContent from "../components/BuyContent/BuyContent";
+import UserNavbar from "../components/UserNavbar/UserNavbar";
 
 const BuyPage = () => {
     const {id} = useParams();
@@ -16,35 +15,35 @@ const BuyPage = () => {
     useEffect(() => {
         socket.on('buy', (data) => {
             setStock(data.changedStock);
-            console.log(data.changedStock)
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
             }
         })
         fetch(`http://localhost:5000/stock/${id}`)
             .then(response => response.json())
-            .then(data => {
-                setStock(data)
-            });
+            .then(data => setStock(data));
         return () => {
             socket.off('buy');
         }
     }, []);
 
     return (
-        stock &&
         <>
-            <BuySoldAbout title='Покупка'/>
-            <div style={{display:'flex'}}>
-                <BuyContent maxBuyPrice={stock.orderBook.sold[stock.orderBook.sold.length - 1]?.price || 999999}
-                             id={id}
-                             lastOrder={stock.price}
-                             img={stock.image}
-                             name={stock.name}
-                             ticker={stock.ticker}/>
-                <OrderBook id={id} orderBook={stock.orderBook}/>
-            </div>
+            <UserNavbar title={`Покупка ${stock?.name || 'LOADING'}`}/>
+            {stock &&
+            <>
+                <div style={{display:'flex'}}>
+                    <BuyContent maxBuyPrice={stock.orderBook.sold[stock.orderBook.sold.length - 1]?.price || 999999}
+                                id={id}
+                                lastOrder={stock.price}
+                                img={stock.image}
+                                name={stock.name}
+                                ticker={stock.ticker}/>
+                    <OrderBook id={id} orderBook={stock.orderBook}/>
+                </div>
+            </>}
         </>
+
     );
 };
 

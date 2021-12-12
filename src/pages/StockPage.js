@@ -5,6 +5,7 @@ import StockPageMain from "../components/StockPageMain/StockPageMain";
 import BuySold from "../components/BuySold/BuySold";
 import { useDispatch } from "react-redux";
 import { changeBuyPriceAC, changeSoldPriceAC } from "../reducers/settingsReducer";
+import UserNavbar from "../components/UserNavbar/UserNavbar";
 
 const Container = styled.div`
   display: flex;
@@ -25,11 +26,14 @@ const StockPage = () => {
     }, []);
 
     return (
-        stock &&
-        <Container>
-            <StockPageMain stock={stock}/>
-            <BuySold id={id} price={stock.price}/>
-        </Container>
+        <>
+            <UserNavbar title={stock?.name || 'LOADING'}/>
+            {stock &&
+            <Container>
+                <StockPageMain stock={stock}/>
+                <BuySold id={id} price={stock.price}/>
+            </Container>}
+        </>
     );
 };
 

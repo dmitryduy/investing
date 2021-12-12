@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 
 export const BuySoldContainer = styled.div`
+  position: sticky;
+  top: 50px;
   display: flex;
   flex: 1;
   border: 1px solid #e7e8ea;

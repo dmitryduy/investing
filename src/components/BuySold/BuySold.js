@@ -5,7 +5,6 @@ import { Button } from "../../Styled";
 
 const BuySold = ({price, id}) => {
     const stockInUser = useSelector(({user}) => user.user.stocks.find(stock => stock.id === +id)) || false;
-    console.log(stockInUser)
     return (
         <BuySoldContainer>
             <BuySoldItem>

@@ -1,34 +1,12 @@
-[{
-  "id": 1,
-  "name": "Astra Space",
-  "ticker": "ASTR",
-  "price": 9.37,
-  "image": "https://invest-brands.cdn-tinkoff.ru/US04634X1037x160.png",
-  "sector": "Машиностроение и транспорт",
-  "about": "Astra Space, Inc. работает как компания, предоставляющая космические услуги. Компания разрабатывает и производит космические корабли и ракеты. Astra Space обслуживает клиентов по всему миру.",
-  "countryInfo": {
-    "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
-    "countryName": "Соединенные штаты"
-  },
-  "stockExchangeInfo": {
-    "stockExchangeName": "СПБ Биржа",
-    "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
-  },
-  "orderBook": {
-    "totalSold": 0,
-    "totalBuy": 0,
-    "sold": [],
-    "buy": []
-  }
-},
+[
   {
-    "id": 2,
-    "name": "Snap Inc",
-    "ticker": "SNAP",
-    "price": 53.16,
-    "image": "https://invest-brands.cdn-tinkoff.ru/US83304A1060x160.png",
-    "sector": "Информационные технологии",
-    "about":"Snap Inc. предоставляет технологии и социальные медиа-услуги и разрабатывает приложения и услуги для мобильных камер, которые позволяют пользователям отправлять и получать фотографии, рисунки, текст и видеоматериалы.",
+    "id": 1,
+    "name": "Astra Space",
+    "ticker": "ASTR",
+    "price": 9.37,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US04634X1037x160.png",
+    "sector": "Машиностроение и транспорт",
+    "about": "Astra Space, Inc. работает как компания, предоставляющая космические услуги. Компания разрабатывает и производит космические корабли и ракеты. Astra Space обслуживает клиентов по всему миру.",
     "countryInfo": {
       "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
       "countryName": "Соединенные штаты"
@@ -43,6 +21,212 @@
       "sold": [],
       "buy": []
     }
+  },
+  {
+    "id": 2,
+    "name": "Snap Inc",
+    "ticker": "SNAP",
+    "price": 53.16,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US83304A1060x160.png",
+    "sector": "Информационные технологии",
+    "about": "Snap Inc. предоставляет технологии и социальные медиа-услуги и разрабатывает приложения и услуги для мобильных камер, которые позволяют пользователям отправлять и получать фотографии, рисунки, текст и видеоматериалы.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 3,
+    "name": "1-800-Flowers.com Inc",
+    "ticker": "FLWS",
+    "price": 23.93,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US68243Q1067x640.png",
+    "sector": "Покупки",
+    "about": "1-800-FLOWERS.COM, Inc. является поставщик электронной коммерции для цветочной продукции и подарков. Продукты компании включают свежесрезанные и сезонные цветы, растения, цветочные композиции, и домашний и садовый товар, который можно приобрести через Интернет или по телефону, позвонив на бесплатный номер телефона.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 4,
+    "name": "Amazon.com",
+    "ticker": "AMZN",
+    "price": 3441.9,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US0231351067x640.png",
+    "sector": "Информационные технологии",
+    "about": "Amazon.com, Inc. - это интернет-магазин, предлагающий широкий ассортимент товаров. Продукция компании включает книги, музыку, компьютеры, электронику и множество других товаров. Amazon предлагает персонализированные услуги покупок, оплату кредитной картой через Интернет и прямую доставку клиентам. Amazon также управляет облачной платформой, предлагающей услуги по всему миру.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 5,
+    "name": "TAL Education Group",
+    "ticker": "TAL",
+    "price": 5.05,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US8740801043x640.png",
+    "sector": "Образование",
+    "about": "TAL Education Group - образовательное учреждение, которое предлагает репетиторские услуги для студентов всех возрастов по основным предметам, таким как математика, английский, китайский, физика, химия, политология, история и биология, в Китае.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/CN.png",
+      "countryName": "Китай"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 6,
+    "name": "Alphabet Class C",
+    "ticker": "GOOG",
+    "price": 2970,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US02079K3059x640.png",
+    "sector": "Информационные технологии",
+    "about": "Google – безусловный лидер в области интернет-поиска. Владеет диверсифицированным портфелем брендов, включающим платформу Android, YouTube, электронный кошелек Google Wallet. Работает и в инновационных сегментах, например, разработке беспилотных автомобилей. В 2015 году была изменена структура корпорации и создана материнская компания Alphabet. Это было сделано с целью отделения инновационных направлений бизнеса от поискового. Акции класса «А» являются голосующими. Акции класса «C» являются неголосующими.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 7,
+    "name": "Arch Capital Group",
+    "ticker": "ACGL",
+    "price": 43.43,
+    "image": "https://invest-brands.cdn-tinkoff.ru/BMG0450A1053x640.png",
+    "sector": "Страхование",
+    "about": "Arch Capital Group предоставляет решения по специальному страхованию, перестрахованию и ипотечному страхованию.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/BM.png",
+      "countryName": "Бермуды"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 8,
+    "name": "Activision Blizzard",
+    "ticker": "ATVI",
+    "price": 58.66,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US00507V1098x640.png",
+    "sector": "Развлечения",
+    "about": "Activision Blizzard, Inc. издает, разрабатывает и распространяет интерактивное развлекательное программное обеспечение и периферийные продукты. Продукция компании охватывает различные категории игр, в том числе боевики, спортивные состязания, гонки, ролевые игры, симуляторы, действия от первого лица, музыкальные игры и стратегии.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/US.png",
+      "countryName": "Соединенные штаты"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 9,
+    "name": "Adidas",
+    "ticker": "ADS@DE",
+    "price": 254.8,
+    "image": "https://invest-brands.cdn-tinkoff.ru/DE000A1EWWW0x640.png",
+    "sector": "Спорт",
+    "about": "Adidas AG производит спортивную обувь и спортивный инвентарь. Компания производит обувь, спортивную одежду, клюшки и мячи для гольфа. Adidas продает свою продукцию по всему миру.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/DE.png",
+      "countryName": "Германия"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
+  },
+  {
+    "id": 10,
+    "name": "Alibaba",
+    "ticker": "BABA@DE",
+    "price": 125,
+    "image": "https://invest-brands.cdn-tinkoff.ru/US01609W1027x640.png",
+    "sector": "Спорт",
+    "about": "Alibaba Group Holding Limited – китайская компания, представляет собой эдакую комбинацию Amazon, eBay и PayPal и на ее долю приходится 80% всей интернет-торговли в КНР. Многомиллиардный бизнес включает в себя торговую площадку Alibaba.com и два шопинг-ресурса: Taobao и Tmall, не считая последних приобретений.\n\nTaobao, площадка для мелких торговцев, которые платят за рекламу и другие возможности сайта.\n\n Еще один сайт Alibaba – Tmall -  предназначен для крупных продавцов, здесь свою продукцию реализуют Nike, Apple, Microsoft, UNIQLO, Gap и другие мировые бренды. В отличие от Taobao, чтобы вести торговлю на Tmall, продавцы вносят ежегодную плату, а также отчисляют комиссию за каждую сделку.\n\nAlibaba также создала свою собственную систему платежей Alipay. Alipay стала настолько популярна в Китае, что, когда компания создала свой денежный фонд, он стал одним из крупнейших в мире всего за 8 месяцев. В сентябре 2014 года корпорация провела успешное IPO.",
+    "countryInfo": {
+      "countryImage": "https://invest-brands.cdn-tinkoff.ru/countries/flags/CN.png",
+      "countryName": "Китай"
+    },
+    "stockExchangeInfo": {
+      "stockExchangeName": "СПБ Биржа",
+      "stockExchangeImage": "https://invest-brands.cdn-tinkoff.ru/exchanges/SPB_Exchange.png"
+    },
+    "orderBook": {
+      "totalSold": 0,
+      "totalBuy": 0,
+      "sold": [],
+      "buy": []
+    }
   }
-
 ]

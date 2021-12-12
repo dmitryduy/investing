@@ -10,6 +10,7 @@ import socket from "./sockets";
 import { useEffect } from "react";
 import BuyPage from "./pages/BuyPage";
 import Catalog from "./pages/Catalog";
+import OrderPage from "./pages/OrderPage";
 
 const Container = styled.div`
   width: 70%;
@@ -43,6 +44,7 @@ function App() {
                     <Route path='/sold/:id' element={<SoldPage/>}/>
                     <Route path='/buy/:id' element={<BuyPage/>}/>
                     <Route path='/catalog/' element={<Catalog/>}/>
+                    <Route path='/order/' element={<OrderPage/>}/>
                 </Routes>
             </Container>
         </BrowserRouter>

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import OrderBook from "../components/OrderBook/OrderBook";
 import SoldContent from "../components/SoldContent/SoldContent";
 import { useParams } from "react-router";
-import BuySoldAbout from "../components/BuySoldAbout/BuySoldAbout";
 import socket from "../sockets";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAC } from "../reducers/userReducer";
+import UserNavbar from "../components/UserNavbar/UserNavbar";
 
 
 const SoldPage = () => {
@@ -17,7 +17,6 @@ const SoldPage = () => {
     useEffect(() => {
         socket.on('sold', (data) => {
             setStock(data.changedStock);
-            console.log(data.changedStock)
             if (data.user.id === userId) {
                 dispatch(fetchUserAC(data.user));
             }
@@ -30,9 +29,10 @@ const SoldPage = () => {
         }
     }, []);
     return (
-        stock &&
+        <>
+            <UserNavbar title={`Продажа ${stock?.name || 'LOADING'}`}/>
+            {stock &&
             <>
-                <BuySoldAbout title='Продажа'/>
                 <div style={{display: 'flex'}}>
                     <SoldContent minSoldPrice={stock.orderBook.buy[0]?.price || 0.01}
                                  id={id}
@@ -42,7 +42,9 @@ const SoldPage = () => {
                                  ticker={stock.ticker}/>
                     <OrderBook id={id} orderBook={stock.orderBook}/>
                 </div>
-            </>
+            </>}
+        </>
+
     );
 };
 
