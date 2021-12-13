@@ -13,14 +13,14 @@ const StockPageMain = ({stock}) => {
             <StockCardWidget>
                 <h4>Страна</h4>
                 <StockCardWidgetContent>
-                    <img src={stock.countryInfo.countryImage}/>
+                    <img src={stock.countryInfo.countryImage} alt={stock.countryInfo.counryName}/>
                     <span>{stock.countryInfo.countryName}</span>
                 </StockCardWidgetContent>
             </StockCardWidget>
             <StockCardWidget>
                 <h4>Биржа торгов</h4>
                 <StockCardWidgetContent>
-                    <img src={stock.stockExchangeInfo.stockExchangeImage}/>
+                    <img src={stock.stockExchangeInfo.stockExchangeImage} alt={stock.stockExchangeInfo.stockExchangeName}/>
                     <span>{stock.stockExchangeInfo.stockExchangeName}</span>
                 </StockCardWidgetContent>
             </StockCardWidget>

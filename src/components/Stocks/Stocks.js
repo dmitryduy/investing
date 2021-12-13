@@ -10,13 +10,12 @@ import { fetchUserStock } from "../../reducers/stockReducer";
 const Stocks = () => {
 
     const {stockData, loaded} = useSelector(({stock}) => stock);
-    const stocks = useSelector(({user}) => user?.user?.stocks);
+    const userStocks = useSelector(({user}) => user.user.stocks);
     const dispatch = useDispatch();
+
     useEffect(() => {
-        if (stocks) {
-            dispatch(fetchUserStock(stocks.map(stock => stock.id)));
-        }
-    }, [stocks]);
+        dispatch(fetchUserStock(userStocks.map(stock => stock.id)));
+    }, []);
 
     return (
         <>
@@ -29,7 +28,9 @@ const Stocks = () => {
                     <li>За сегодня</li>
                 </div>
                 {loaded ?
-                    stockData.sort((a, b) => a.name < b.name? -1: 0).map(stock => <StockRow key={stock.id} item={stock}/>)
+                    stockData
+                        .sort((a, b) => a.name < b.name ? -1 : 0)
+                        .map(stock => <StockRow key={stock.id} stock={stock}/>)
                     :
                     <p style={{margin: '0 auto', padding: '10px'}}>Loading...</p>
                 }

@@ -1,5 +1,5 @@
 import './App.css';
-import User from "./pages/user";
+import UserPage from "./pages/UserPage";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -9,9 +9,9 @@ import BuyPage from "./pages/BuyPage";
 import Catalog from "./pages/Catalog";
 import OrderPage from "./pages/OrderPage";
 import LoginPage from "./pages/LoginPage";
-import socket from "./sockets";
 import { fetchUserAC } from "./reducers/userReducer";
 import { useEffect } from "react";
+import useSocket from "./hooks/useSocket";
 
 const Container = styled.div`
   width: 70%;
@@ -22,27 +22,25 @@ const Container = styled.div`
 function App() {
     const userId = useSelector(({user}) => user.user?.id);
     const dispatch = useDispatch();
-    socket.on('newBalance', (data => {
-        console.log(data, userId)
-        if (data.id === userId)
-            dispatch(fetchUserAC(data));
-    }));
-    console.log(userId)
-    useEffect(() => {
+    const changeUserData = useSocket('newBalance');
 
+    changeUserData.on(user => {
+        if (user.id === userId)
+            dispatch(fetchUserAC(user));
+    })
+    useEffect(() => {
         return () => {
-            socket.off('newBalance');
+            changeUserData.off();
         };
     }, []);
 
     return (
-
         <BrowserRouter>
             {userId ?
                 <>
                     <Container>
                         <Routes>
-                            <Route exact path='/' element={<User/>}/>
+                            <Route exact path='/' element={<UserPage/>}/>
                             <Route path='/stocks/:id' element={<StockPage/>}/>
                             <Route path='/sold/:id' element={<SoldPage/>}/>
                             <Route path='/buy/:id' element={<BuyPage/>}/>
@@ -59,7 +57,6 @@ function App() {
                     </Routes>
                 </>
             }
-
         </BrowserRouter>
     );
 }

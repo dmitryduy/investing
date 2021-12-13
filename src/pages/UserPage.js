@@ -3,7 +3,7 @@ import UserNavbar from "../components/UserNavbar/UserNavbar";
 import UserInfoCard from "../components/UserInfoCard/UserInfoCard";
 import Stocks from "../components/Stocks/Stocks";
 
-const User = () => {
+const UserPage = () => {
 
     return (
         <>
@@ -14,4 +14,4 @@ const User = () => {
     );
 };
 
-export default User;
+export default UserPage;

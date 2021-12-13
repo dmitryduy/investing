@@ -10,15 +10,18 @@ import {
 } from "./StockRow.styles";
 import { useSelector } from "react-redux";
 import LockSvg from "../../LockSvg/LockSvg";
+import Arrow from "../../Arrow/Arrow";
+import toLocale from "../../../toLocale";
 
 
-const StockRow = ({item: stock}) => {
-
+const StockRow = ({stock}) => {
     const userStockData = useSelector(({user}) => user.user.stocks.find(stockUser => stockUser.id === stock.id));
+
     if (!userStockData) {
         return null;
     }
     const sign = stock.price > userStockData.price ? '+' : stock.price < userStockData.price ? '-' : '';
+
     return (
         <StockRowContainer to={`/stocks/${stock.id}`}>
             <StockName>
@@ -28,28 +31,27 @@ const StockRow = ({item: stock}) => {
                     <StockTicker>{stock.ticker}</StockTicker>
                 </div>
             </StockName>
-            <StockPrice><span className='prev'>{userStockData.price.toLocaleString('RU-ru')} $</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path
-                        d="M9.589 7.001L8.297 5.706a1 1 0 111.416-1.412l2.29 2.295a2 2 0 01-.001 2.826l-2.29 2.292a1 1 0 11-1.414-1.414l1.29-1.292-5.587.004a1 1 0 01-.002-2L9.59 7z"
-                        fill="currentColor"/>
-                </svg>
-                <span className='current'>{stock.price.toLocaleString('RU-ru')} $</span></StockPrice>
+            <StockPrice>
+                <span className='prev'>{toLocale(userStockData.price)}</span>
+                <Arrow/>
+                <span className='current'>{toLocale(stock.price)}</span>
+            </StockPrice>
             <StockTotalPrice>
-                <span className='price'>{(userStockData.amount * stock.price).toLocaleString('RU-ru')} $</span>
+                <span className='price'>{toLocale(userStockData.amount * stock.price)}</span>
                 <span className='amount'>{userStockData.amount} шт.
-                    {userStockData.frozenAmount ? <span>
-                        ({<LockSvg color='#000' fontSize={11}/>} {userStockData.frozenAmount} шт.)
-                        </span>: '' }
+                    {userStockData.frozenAmount ?
+                        <span>
+                            ({<LockSvg color='#000' fontSize={11}/>} {userStockData.frozenAmount} шт.)
+                        </span> : ''}
                     </span>
             </StockTotalPrice>
             <StockProfit className={sign === '+' ? 'positive' : sign === '-' ? 'negative' : ''}>
                 <span className='dollars'>
                     {sign}
-                    {Math.abs(userStockData.amount * userStockData.price - stock.price * userStockData.amount).toLocaleString('RU-ru')} $</span>
+                    {toLocale(userStockData.amount * userStockData.price - stock.price * userStockData.amount)}</span>
                 <span className='percent'>
                     {sign}
-                    {(Math.abs(stock.price - userStockData.price) / userStockData.price * 100).toLocaleString('RU-ru')} %</span>
+                    {toLocale((stock.price - userStockData.price) / userStockData.price * 100, true)}</span>
             </StockProfit>
         </StockRowContainer>
     );

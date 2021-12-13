@@ -5,10 +5,7 @@ import { useNavigate } from "react-router";
 
 const UserNavbar = ({active, title}) => {
     const navigate = useNavigate();
-
-    const pushBack = () => {
-        navigate(-1);
-    }
+    const pushBack = () => navigate(-1);
 
     return (
             <UserNavbarContainer>
