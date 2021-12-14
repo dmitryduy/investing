@@ -10,7 +10,7 @@ const OrderRow = ({price, stockName, amount, type, totalAmount}) => {
                 <LeftSide>
                     <span>Брокерский счет, $</span>
                     <OrderInfo>
-                        {type === 'buy' ? 'Покупка' : 'Продажа'}
+                        {type === 'buy' ? 'Покупка ' : 'Продажа '}
                         {amount}{totalAmount !== amount && `/${totalAmount}`} акций {stockName}
                     </OrderInfo>
                 </LeftSide>

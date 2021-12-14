@@ -20,6 +20,7 @@ const UserInfoCard = () => {
 
 
     useEffect(() => {
+        console.log(444)
         if (stockLoaded) {
             if (round(user.startBalance) < round(user.balance + totalStockPrice)) {
                 setSign('+')
@@ -30,8 +31,9 @@ const UserInfoCard = () => {
             }
         }
 
-    }, [user]);
+    }, [user, stock, totalStockPrice]);
 
+    console.log(totalStockPrice, user.balance, user.startBalance)
 
     return (
         <UserInfoCardContainer>
@@ -43,7 +45,7 @@ const UserInfoCard = () => {
                     {sign}
                     {toLocale(user.startBalance - user.balance - totalStockPrice)}
                     ({sign}
-                    {toLocale((user.startBalance - user.balance - totalStockPrice) / user.startBalance * 100, true)})
+                    {toLocale((user.startBalance - user.balance - totalStockPrice) / user.startBalance, true)})
                 </UserInfoProfit>
             </UserCardItem>
             <UserCardItem title='Имя'>

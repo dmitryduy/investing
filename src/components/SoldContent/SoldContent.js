@@ -36,7 +36,7 @@ const SoldContent = ({id, name, img, ticker, lastOrder, minSoldPrice}) => {
             setIncorrectPriceAnimation();
             return;
         }
-        soldSocket.emit({id, price, amount: +amount, userName});
+        soldSocket.emit({stockId: +id, soldByPrice: +price, amount: +amount, sellerName: userName});
     }
 
     useEffect(() => {

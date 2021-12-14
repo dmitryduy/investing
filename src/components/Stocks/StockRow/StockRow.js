@@ -51,7 +51,7 @@ const StockRow = ({stock}) => {
                     {toLocale(userStockData.amount * userStockData.price - stock.price * userStockData.amount)}</span>
                 <span className='percent'>
                     {sign}
-                    {toLocale((stock.price - userStockData.price) / userStockData.price * 100, true)}</span>
+                    {toLocale((stock.price - userStockData.price) / userStockData.price, true)}</span>
             </StockProfit>
         </StockRowContainer>
     );

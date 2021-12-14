@@ -4,7 +4,8 @@ const initialState = {
 }
 
 const types = {
-    FETCH_USER_STOCKS: 'FETCH_USER_STOCKS'
+    FETCH_USER_STOCKS: 'FETCH_USER_STOCKS',
+    UPDATE_STOCK: 'UPDATE_STOCK'
 }
 
 const stockReducer = (state=initialState, action) => {
@@ -15,6 +16,16 @@ const stockReducer = (state=initialState, action) => {
                 stockData: action.payload,
                 loaded: true
             }
+        case types.UPDATE_STOCK:
+            const newStock = state.stockData.map(stock => {
+                if (stock.id === action.payload.id) {
+                    return {...stock, price: action.payload.price};
+                }
+                return {...stock};
+            });
+
+            return {...state, stockData: newStock};
+
         default:
             return {...state}
     }
@@ -24,6 +35,13 @@ export const fetchUserStockAC = (stock) => ({
     type: types.FETCH_USER_STOCKS,
     payload: stock
 })
+
+export const updateStockAC = (stock) => {
+    return {
+        type: types.UPDATE_STOCK,
+        payload: stock
+    }
+}
 
 export const fetchUserStock = (stockIds) => (dispatch) => {
     fetch('http://localhost:5000/getStock', {

@@ -36,7 +36,7 @@ const BuyContent = ({id, name, img, ticker, lastOrder, maxBuyPrice}) => {
             setIncorrectPriceAnimation();
             return;
         }
-        buySocket.emit({id, price, amount: +amount, userName});
+        buySocket.emit({stockId: +id, buyByPrice: +price, amount: +amount, buyerName: userName});
     }
 
     useEffect(() => {
