@@ -11,7 +11,6 @@ const StockPage = () => {
     const {id} = useParams();
     const [stock, setStock] = useState(null);
     const dispatch = useDispatch();
-    console.log(stock)
     useEffect(() => {
         fetch(`http://localhost:5000/stock/${id}`)
             .then(response => response.json())

@@ -9,6 +9,19 @@ export const OrderBookContainer = styled.div`
   max-height: 300px;
   cursor: pointer;
   overflow: auto;
+  &::-webkit-scrollbar {
+    width: 3px;
+    position: absolute;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 5px;
+  }
 `;
 
 export const OrderBookHeader = styled.div`

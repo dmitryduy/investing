@@ -20,7 +20,6 @@ const UserInfoCard = () => {
 
 
     useEffect(() => {
-        console.log(444)
         if (stockLoaded) {
             if (round(user.startBalance) < round(user.balance + totalStockPrice)) {
                 setSign('+')
@@ -32,8 +31,6 @@ const UserInfoCard = () => {
         }
 
     }, [user, stock, totalStockPrice]);
-
-    console.log(totalStockPrice, user.balance, user.startBalance)
 
     return (
         <UserInfoCardContainer>

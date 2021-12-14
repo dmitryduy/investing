@@ -181,7 +181,7 @@ const getStockThatUserSoldById = (user: IUser, stockId: number): IUserStock => {
 const increaseUserAmountOfStocks = (user: IUser, userStocks: IUserStock, price: number, amount: number, stockId: number): void => {
     if (userStocks) {
         userStocks.amount += amount;
-        userStocks.price = +(((userStocks.price*userStocks.amount + price * amount) / (amount + userStocks.amount)).toFixed(2));
+        userStocks.price = +(((userStocks.price * userStocks.amount + price * amount) / (amount + userStocks.amount)).toFixed(2));
     } else {
         user.stocks.push({
             price: price,
@@ -214,7 +214,6 @@ const soldAllStocks = (changedStock: IStock, socket: any, data: soldData, sendTo
         const buyerUser: IUser = getUserByName(buyer.name);
         const buyerStocks: IUserStock | undefined = getStockThatUserSoldById(buyerUser, data.stockId);
         if (buyer.amount <= remain) {
-            console.log(buyer, remain)
             remain -= buyer.amount;
             buyerUser.balance -= buyer.amount * data.soldByPrice;
             buyerUser.frozenBalance -= buyer.amount * data.soldByPrice;
@@ -251,11 +250,9 @@ const buyAllStocks = (changedStock: IStock, socket: any, data: buyData, sendToUs
     let remain = data.amount;
     const minimumStockSoldObj = getLowerSold(changedStock);
     const sellers = JSON.parse(JSON.stringify(minimumStockSoldObj.sellers));
-    console.log(minimumStockSoldObj)
     for (let seller of sellers) {
         const sellerUser: IUser = getUserByName(seller.name);
         const sellerStocks: IUserStock | undefined = getStockThatUserSoldById(sellerUser, data.stockId);
-        console.log(buyerUser, remain, sellerStocks, data, minimumStockSoldObj, minimumStockSoldObj.sellers)
         if (seller.amount <= remain) {
             remain -= seller.amount;
             sellerUser.balance += seller.amount * data.buyByPrice;
@@ -267,7 +264,6 @@ const buyAllStocks = (changedStock: IStock, socket: any, data: buyData, sendToUs
             }
             minimumStockSoldObj.sellers.shift();
         } else {
-            console.log(111, minimumStockSoldObj, data, sellerUser, sellerStocks)
             minimumStockSoldObj.sellers[0].amount -= remain;
             sellerUser.readySold.find(order => order.orderId === seller.orderId).amount -= remain;
             sellerUser.balance += remain * data.buyByPrice;
@@ -369,7 +365,7 @@ const buyAllAndSetBuyOrder = (changedStock: IStock, socket: any, data: buyData):
         amount: minSoldStockObj.totalAmount,
         stockId: data.stockId,
         buyerName: data.buyerName
-    },  false);
+    }, false);
 
     changedStock.orderBook.sold.pop();
     if (!remainAmount) {
@@ -448,12 +444,16 @@ io.on('connection', (socket) => {
             } else {
                 soldAllAndSetSoldOrder(changedStock, socket, data);
             }
+            changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
+            changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
             io.sockets.emit('update stocks', changedStock);
             io.sockets.emit('admin', {stocks, users});
             return;
         }
 
         setSoldOrder(changedStock, data);
+        changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
+        changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
         io.sockets.emit('admin', {stocks, users});
         io.sockets.emit('update stocks', changedStock);
     });
@@ -470,12 +470,16 @@ io.on('connection', (socket) => {
             } else {
                 buyAllAndSetBuyOrder(changedStock, socket, data);
             }
+            changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
+            changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
             io.sockets.emit('admin', {stocks, users});
             io.sockets.emit('update stocks', changedStock);
             return;
         }
 
         setBuyOrder(changedStock, data);
+        changedStock.orderBook.sold.sort((a, b) => b.price - a.price);
+        changedStock.orderBook.buy.sort((a, b) => b.price - a.price);
         io.sockets.emit('admin', {stocks, users});
         io.sockets.emit('update stocks', changedStock);
     });

@@ -339,11 +339,15 @@ io.on('connection', function (socket) {
             else {
                 soldAllAndSetSoldOrder(changedStock, socket, data);
             }
+            changedStock.orderBook.sold.sort(function (a, b) { return b.price - a.price; });
+            changedStock.orderBook.buy.sort(function (a, b) { return b.price - a.price; });
             io.sockets.emit('update stocks', changedStock);
             io.sockets.emit('admin', { stocks: stocks, users: users });
             return;
         }
         setSoldOrder(changedStock, data);
+        changedStock.orderBook.sold.sort(function (a, b) { return b.price - a.price; });
+        changedStock.orderBook.buy.sort(function (a, b) { return b.price - a.price; });
         io.sockets.emit('admin', { stocks: stocks, users: users });
         io.sockets.emit('update stocks', changedStock);
     });
@@ -360,11 +364,15 @@ io.on('connection', function (socket) {
             else {
                 buyAllAndSetBuyOrder(changedStock, socket, data);
             }
+            changedStock.orderBook.sold.sort(function (a, b) { return b.price - a.price; });
+            changedStock.orderBook.buy.sort(function (a, b) { return b.price - a.price; });
             io.sockets.emit('admin', { stocks: stocks, users: users });
             io.sockets.emit('update stocks', changedStock);
             return;
         }
         setBuyOrder(changedStock, data);
+        changedStock.orderBook.sold.sort(function (a, b) { return b.price - a.price; });
+        changedStock.orderBook.buy.sort(function (a, b) { return b.price - a.price; });
         io.sockets.emit('admin', { stocks: stocks, users: users });
         io.sockets.emit('update stocks', changedStock);
     });

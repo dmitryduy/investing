@@ -28,8 +28,7 @@ const OrderBook = ({orderBook}) => {
                 <span className='price'>Цена, $</span>
                 <span className='sold'>Продажа</span>
             </OrderBookHeader>
-            {orderBook.sold.map(order => {
-                console.log(order)
+            {orderBook.sold.sort((a, b) => b.price - a.price).map(order => {
                 const showUserOrders = userOrders.find(userOrder => userOrder.price === order.price) || false;
                 return (
                     <OrderBookItem onClick={() => changeChoosePrice(order.price)} className='sold' key={order.price}>
@@ -40,7 +39,7 @@ const OrderBook = ({orderBook}) => {
                     </OrderBookItem>
                 )
             })}
-            {orderBook.buy.map(order => {
+            {orderBook.buy.sort((a, b) => b.price - a.price).map(order => {
                 const showUserOrders = userOrders.find(userOrder => userOrder.price === order.price) || false;
                 return (
                     <OrderBookItem onClick={() => changeChoosePrice(order.price)} className='buy' key={order.price} >

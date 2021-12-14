@@ -12,7 +12,6 @@ const useSocket = (msgName) => {
             socket.off(msgName)
         },
         emit: (data) => {
-            console.log(data)
             socket.emit(msgName, data)
         }
     }
