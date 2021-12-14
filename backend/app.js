@@ -53,6 +53,9 @@ app.get('/stock', function (req, res) {
         price: stock.price
     }); }));
 });
+app.get('/admin', function (req, res) {
+    res.json({ users: users, stocks: stocks });
+});
 var findStockById = function (stockId) {
     return stocks.find(function (stock) { return stock.id === stockId; });
 };
@@ -320,6 +323,9 @@ var setBuyOrder = function (changedStock, data) {
 };
 io.on('connection', function (socket) {
     console.log('a user connected');
+    socket.on('start', function () {
+        io.sockets.emit('start');
+    });
     socket.on('sold', function (data) {
         var changedStock = findStockById(data.stockId);
         var higherBuyer = getTopBuy(changedStock);
@@ -334,9 +340,11 @@ io.on('connection', function (socket) {
                 soldAllAndSetSoldOrder(changedStock, socket, data);
             }
             io.sockets.emit('update stocks', changedStock);
+            io.sockets.emit('admin', { stocks: stocks, users: users });
             return;
         }
         setSoldOrder(changedStock, data);
+        io.sockets.emit('admin', { stocks: stocks, users: users });
         io.sockets.emit('update stocks', changedStock);
     });
     socket.on('buy', function (data) {
@@ -352,10 +360,13 @@ io.on('connection', function (socket) {
             else {
                 buyAllAndSetBuyOrder(changedStock, socket, data);
             }
+            io.sockets.emit('admin', { stocks: stocks, users: users });
             io.sockets.emit('update stocks', changedStock);
             return;
         }
         setBuyOrder(changedStock, data);
+        io.sockets.emit('admin', { stocks: stocks, users: users });
+        io.sockets.emit('update stocks', changedStock);
     });
 });
 server.listen(5000, function () {

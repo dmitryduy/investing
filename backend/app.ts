@@ -61,6 +61,10 @@ app.get('/stock', (req, res) => {
         ticker: stock.ticker,
         price: stock.price
     })));
+});
+
+app.get('/admin', (req, res) => {
+    res.json({users, stocks});
 })
 
 
@@ -427,6 +431,9 @@ const setBuyOrder = (changedStock: IStock, data: buyData): void => {
 io.on('connection', (socket) => {
     console.log('a user connected');
 
+    socket.on('start', () => {
+        io.sockets.emit('start');
+    })
 
     socket.on('sold', (data: soldData) => {
         const changedStock: IStock = findStockById(data.stockId);
@@ -442,10 +449,12 @@ io.on('connection', (socket) => {
                 soldAllAndSetSoldOrder(changedStock, socket, data);
             }
             io.sockets.emit('update stocks', changedStock);
+            io.sockets.emit('admin', {stocks, users});
             return;
         }
 
         setSoldOrder(changedStock, data);
+        io.sockets.emit('admin', {stocks, users});
         io.sockets.emit('update stocks', changedStock);
     });
 
@@ -461,11 +470,14 @@ io.on('connection', (socket) => {
             } else {
                 buyAllAndSetBuyOrder(changedStock, socket, data);
             }
+            io.sockets.emit('admin', {stocks, users});
             io.sockets.emit('update stocks', changedStock);
             return;
         }
 
         setBuyOrder(changedStock, data);
+        io.sockets.emit('admin', {stocks, users});
+        io.sockets.emit('update stocks', changedStock);
     });
 });
 

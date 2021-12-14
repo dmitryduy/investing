@@ -45,7 +45,9 @@ export const fetchUser = (userName) => dispatch => {
             }
             return response.json()
         })
-        .then(data => dispatch(fetchUserAC(data)));
+        .then(data => {
+            dispatch(fetchUserAC(data))
+        });
 }
 
 export default userReducer;

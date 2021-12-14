@@ -12,6 +12,8 @@ import LoginPage from "./pages/LoginPage";
 import { fetchUserAC } from "./reducers/userReducer";
 import { useEffect } from "react";
 import useSocket from "./hooks/useSocket";
+import AdminPage from "./pages/AdminPage";
+import { setStart } from "./reducers/settingsReducer";
 
 const Container = styled.div`
   width: 70%;
@@ -23,14 +25,20 @@ function App() {
     const userId = useSelector(({user}) => user.user?.id);
     const dispatch = useDispatch();
     const changeUserData = useSocket('newBalance');
+    const startSocket = useSocket('start');
 
     changeUserData.on(user => {
         if (user.id === userId)
             dispatch(fetchUserAC(user));
     })
+    startSocket.on(() => {
+        dispatch(setStart());
+    })
+
     useEffect(() => {
         return () => {
             changeUserData.off();
+            startSocket.off();
         };
     }, []);
 
@@ -53,6 +61,7 @@ function App() {
                 <>
                     <Routes>
                         <Route path='/login' element={<LoginPage/>}/>
+                        <Route path='/admin' element={<AdminPage/>}/>
                         <Route path='*' element={<Navigate to='/login'/>}/>
                     </Routes>
                 </>

@@ -15,6 +15,7 @@ const OrderPage = () => {
                                                   totalAmount={orderItem.totalAmount}
                                                   type={orderItem.type} price={orderItem.price}
                                                   stockName={orderItem.stockName} amount={orderItem.amount}/>)}
+            {!orderList.length && <p style={{textAlign: 'center', fontWeight: 500, fontSize: 30, color: '#333'}}>Нет активных заявок</p>}
         </div>
     );
 };
